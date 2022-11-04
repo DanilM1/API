@@ -191,8 +191,8 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateAsync5(int id, [FromBody] DTO_BusinessLicenseRegistrationStep5 BusinessLicenseRegistrationStep5)
         {
             var buf1 = await obj.GetMemberAsync(id);
-            var buf4 = await obj.GetMembersAsync();
-            var buf3 = await obj.GetAllCountAsync();
+            var buf3 = await obj.GetMembersAsync();
+            var buf4 = await obj.GetAllCountAsync();
 
             var buf = new D_BusinessLicense()
             {
