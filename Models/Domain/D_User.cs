@@ -6,7 +6,7 @@ namespace API.Models.Domain
     public class D_User
     {
         [Key]
-        public int User_id { get; set; }
+        public Guid User_id { get; set; }
 
         [Required]
         [MaxLength(30)]

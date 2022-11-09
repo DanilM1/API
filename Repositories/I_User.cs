@@ -4,8 +4,7 @@ namespace API.Repositories
 {
     public interface I_User
     {
-        Task<D_User> AuthenticateAsync(string Username, string Password);
-        Task<string> AddAsync(D_User User);
-        Task<int> GetAsync();
+        Task<D_User> SignIn(string Username, string Password);
+        Task<Guid> SignUp(D_User User);
     }
 }

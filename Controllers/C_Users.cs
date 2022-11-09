@@ -32,14 +32,14 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("SignIn")]
-        [ActionName("AuthenticateAsync")]
-        public async Task<IActionResult> AuthenticateAsync(DTO_SignIn signIn)
+        [ActionName("SignIn")]
+        public async Task<IActionResult> SignIn(DTO_SignIn signIn)
         {
-            var buf = await user.AuthenticateAsync(signIn.Username, signIn.Password);
+            var buf = await user.SignIn(signIn.Username, signIn.Password);
 
             if (buf != null)
             {
-                var token = await tokenHandler.CreateTokenAsync(buf);
+                var token = await tokenHandler.CreateToken(buf);
                 return Ok(token);
             }
 
@@ -48,49 +48,53 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("SignUp")]
-        public async Task<IActionResult> AddAsync(DTO_SignUp signUp)
+        public async Task<IActionResult> SignUp(DTO_SignUp SignUp)
         {
-            if (!await ValidateAddAsync(signUp)) return BadRequest(ModelState);
+            if (!await ValidateSignUp(SignUp)) return BadRequest(ModelState);
 
-            var buf1 = new D_User()
+            var User_id = Guid.NewGuid();
+
+            var buf = new D_User()
             {
-                Username = signUp.Username,
-                EmailAddress = signUp.EmailAddress,
-                Password = signUp.Password,
-                FirstName = signUp.FirstName,
-                LastName = signUp.LastName,
-                Roles = signUp.Roles
+                User_id = User_id,
+                Username = SignUp.Username,
+                EmailAddress = SignUp.EmailAddress,
+                Password = SignUp.Password,
+                FirstName = SignUp.FirstName,
+                LastName = SignUp.LastName,
+                Roles = SignUp.Roles
             };
 
-            var buf2 = await user.AddAsync(buf1);
+            await user.SignUp(buf);
 
-            var buf3 = await user.GetAsync();
-
-            foreach (var userRole in signUp.Roles)
+            foreach (var Name in buf.Roles)
             {
-                var buf4 = await role.GetAsync(userRole);
-                var buf5 = new D_User_Role()
+                var Role = await role.GetRoleId_Filter_Name(Name);
+                if (Role != null)
                 {
-                    UserId = buf3,
-                    RoleId = buf4.Role_id
-                };
-                await user_role.AddAsync(buf5);
+                    var User_Roles = new D_User_Role()
+                    {
+                        UserId = User_id,
+                        RoleId = Role.Role_id
+                    };
+                    await user_role.Add_User_Role(User_Roles);
+                }
             }
 
-            return CreatedAtAction(nameof(AuthenticateAsync), buf2);
+            return CreatedAtAction(nameof(SignIn), buf.User_id);
         }
 
         #region Private methods
-        private async Task<bool> ValidateAddAsync(DTO_SignUp signUp)
+        private async Task<bool> ValidateSignUp(DTO_SignUp SignUp)
         {
-            var user = await APIDbContext.Users.AnyAsync(x => x.Username == signUp.Username || x.EmailAddress == signUp.EmailAddress);
+            var user = await APIDbContext.Users.AnyAsync(x => x.Username == SignUp.Username || x.EmailAddress == SignUp.EmailAddress);
 
-            if (user) ModelState.AddModelError(nameof(signUp.Username), $"{nameof(signUp.Username)} or {nameof(signUp.EmailAddress)} already exists.");
+            if (user) ModelState.AddModelError(nameof(SignUp.Username), $"{nameof(SignUp.Username)} or {nameof(SignUp.EmailAddress)} already exists.");
 
-            foreach (var userRole in signUp.Roles)
+            foreach (var Name in SignUp.Roles)
             {
-                var buf = await role.GetAsync(userRole);
-                if (buf == null) ModelState.AddModelError(nameof(signUp.Roles), $"{nameof(userRole)} is invalid.");
+                var Role = await role.GetRoleId_Filter_Name(Name);
+                if (Role == null) ModelState.AddModelError(nameof(SignUp.Roles), $"{nameof(Name)} is invalid.");
             }
 
             if (ModelState.ErrorCount > 0) return false;

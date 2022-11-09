@@ -7,6 +7,7 @@ namespace API.Validators
     {
         public V_BusinessLicenseRegistrationStep1()
         {
+            RuleFor(x => x.vendorUser_Id).NotEmpty();
             RuleFor(x => x.sBusinessname_Legal).NotEmpty().MinimumLength(3).MaximumLength(200);
             RuleFor(x => x.sName_First_Soleproprietor).NotEmpty().MaximumLength(200);
             RuleFor(x => x.sName_Mi_Soleproprietor).MaximumLength(5);

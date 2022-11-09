@@ -4,6 +4,6 @@ namespace API.Repositories
 {
     public interface I_SIC
     {
-        Task<IEnumerable<D_SIC>> GetAllAsync(string sGroupCode);
+        Task<IEnumerable<D_SIC>> GetListOfAllSICs_Filter_sGroupCode(string sGroupCode);
     }
 }

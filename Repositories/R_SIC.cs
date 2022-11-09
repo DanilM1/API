@@ -12,8 +12,8 @@ namespace API.Repositories
         {
             this.APIDbContext = APIDbContext;
         }
-
-        public async Task<IEnumerable<D_SIC>> GetAllAsync(string sGroupCode)
+        
+        public async Task<IEnumerable<D_SIC>> GetListOfAllSICs_Filter_sGroupCode(string sGroupCode)
         {
             return await APIDbContext.SICs.Where(x => x.D_SICHeader.sGroupCode == sGroupCode).ToListAsync();
         }

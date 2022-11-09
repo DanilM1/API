@@ -12,11 +12,11 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<D_User_Role> AddAsync(D_User_Role d_User_Role)
+        public async Task<string> Add_User_Role(D_User_Role User_Role)
         {
-            await APIDbContext.Users_Roles.AddAsync(d_User_Role);
+            await APIDbContext.Users_Roles.AddAsync(User_Role);
             await APIDbContext.SaveChangesAsync();
-            return d_User_Role;
+            return "Created user with his role(s).";
         }
     }
 }

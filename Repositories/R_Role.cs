@@ -13,12 +13,12 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_Role>> GetAllAsync()
+        public async Task<IEnumerable<D_Role>> GetListOfAllRoles()
         {
             return await APIDbContext.Roles.ToListAsync();
         }
 
-        public async Task<D_Role> GetAsync(string Name)
+        public async Task<D_Role> GetRoleId_Filter_Name(string Name)
         {
             return await APIDbContext.Roles.FirstOrDefaultAsync(x => x.Name == Name);
         }

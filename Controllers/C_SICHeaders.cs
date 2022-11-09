@@ -10,20 +10,21 @@ namespace API.Controllers
     [Route("[controller]")]
     public class C_SICHeaders : Controller
     {
-        private readonly I_SICHeader obj;
+        private readonly I_SICHeader I_SICHeader;
         private readonly IMapper mapper;
 
-        public C_SICHeaders(I_SICHeader obj, IMapper mapper)
+        public C_SICHeaders(I_SICHeader I_SICHeader, IMapper mapper)
         {
-            this.obj = obj;
+            this.I_SICHeader = I_SICHeader;
             this.mapper = mapper;
         }
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<List<string>> GetListOfAllSICHeaders()
         {
-            return Ok(mapper.Map<List<DTO_SICHeader>>(await obj.GetAllAsync()));
+            List<string> list = await I_SICHeader.GetListOfAllSICHeaders();
+            return list;
         }
     }
 }

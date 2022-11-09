@@ -1,9 +1,7 @@
-﻿using API.Models.Domain;
-
-namespace API.Repositories
+﻿namespace API.Repositories
 {
     public interface I_SICHeader
     {
-        Task<IEnumerable<D_SICHeader>> GetAllAsync();
+        Task<List<string>> GetListOfAllSICHeaders();
     }
 }

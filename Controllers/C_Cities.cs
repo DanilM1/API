@@ -1,6 +1,4 @@
-﻿using API.Models.DTO;
-using API.Repositories;
-using AutoMapper;
+﻿using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,28 +8,28 @@ namespace API.Controllers
     [Route("[controller]")]
     public class C_Cities : Controller
     {
-        private readonly I_City obj;
-        private readonly IMapper mapper;
+        private readonly I_City I_City;
 
-        public C_Cities(I_City obj, IMapper mapper)
+        public C_Cities(I_City I_City)
         {
-            this.obj = obj;
-            this.mapper = mapper;
+            this.I_City = I_City;
         }
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetAllAsync(string State_id)
+        public async Task<List<string>> GetListOfAllCitiesOfStateById(string State_id)
         {
-            return Ok(mapper.Map<List<DTO_City>>(await obj.GetAllAsync(State_id)));
+            List<string> list = await I_City.GetListOfAllCitiesOfStateById(State_id);
+            return list;
         }
 
         [HttpGet]
         [Route("~/C_City/ZIPs")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetAllAsync2(string State_id, string City)
+        public async Task<List<string>> GetListOfAllZIPs_Filter_StateCity(string State_id, string City)
         {
-            return Ok(mapper.Map<List<DTO_ZIP>>(await obj.GetAllAsync2(State_id, City)));
+            List<string> list = await I_City.GetListOfAllZIPs_Filter_StateCity(State_id, City);
+            return list;
         }
     }
 }

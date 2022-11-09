@@ -8,7 +8,11 @@ namespace API.Models.Domain
         // step 1
 
         [Key]
-        public int iTemp_id { get; set; }
+        public int License_id { get; set; }
+
+        public Guid vendorUser_Id { get; set; }
+
+        public D_User vendor { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -150,31 +154,31 @@ namespace API.Models.Domain
 
         public bool? bMember { get; set; }
 
-        public float? iOwned_SWST_Percent { get; set; } = null;
+        public float? iOwned_SWST_Percent { get; set; }
 
-        public float? iOwned_AmeriIndian_percent { get; set; } = null;
+        public float? iOwned_AmeriIndian_percent { get; set; }
 
         [MaxLength(5)]
         public string? sGroupCode_1 { get; set; }
 
-        public int? sSICCode_1 { get; set; } = null;
+        public int? sSICCode_1 { get; set; }
 
         [MaxLength(5)]
         public string? sGroupCode_2 { get; set; }
 
-        public int? sSICCode_2 { get; set; } = null;
+        public int? sSICCode_2 { get; set; }
 
         [MaxLength(5)]
         public string? sGroupCode_3 { get; set; }
 
-        public int? sSICCode_3 { get; set; } = null;
+        public int? sSICCode_3 { get; set; }
 
         [MaxLength(5)]
         public string? sGroupCode_4 { get; set; }
 
-        public int? sSICCode_4 { get; set; } = null;
+        public int? sSICCode_4 { get; set; }
 
-        public bool? ibusiness_located { get; set; } = null;
+        public bool? ibusiness_located { get; set; }
 
         [MaxLength(200)]
         public string? directions_nearest_town { get; set; }
@@ -211,29 +215,19 @@ namespace API.Models.Domain
         [MaxLength(200)]
         public string? sCTT_Id_Current { get; set; }
 
-        public bool? bCTT_Id_Cancel { get; set; } = null;
+        public bool? bCTT_Id_Cancel { get; set; }
 
-        public DateTime? dCTT_Id_CancelEff { get; set; } = null;
+        public DateTime? dCTT_Id_CancelEff { get; set; }
 
         // step 5
 
-        [Required]
-        public D_User vendor { get; set; }
+        public DateTime? applicationDate { get; set; }
 
-        [Required]
-        public DateTime applicationDate { get; set; }
-
-        [Required]
         [MaxLength(8)]
-        public string sLicenseNo { get; set; }
+        public string? sLicenseNo { get; set; }
 
-        public DateTime? dStartDate { get; set; } = null;
-
-        public DateTime? dEndDate { get; set; } = null;
-
-        [Required]
         [MaxLength(24)]
-        public string sPwd { get; set; }
+        public string? sPwd { get; set; }
 
         [MaxLength(200)]
         public string? secretQuestion { get; set; }

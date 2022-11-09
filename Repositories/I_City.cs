@@ -1,10 +1,8 @@
-﻿using API.Models.Domain;
-
-namespace API.Repositories
+﻿namespace API.Repositories
 {
     public interface I_City
     {
-        Task<IEnumerable<D_City>> GetAllAsync(string State_id);
-        Task<IEnumerable<D_City>> GetAllAsync2(string State_id, string City);
+        Task<List<string>> GetListOfAllCitiesOfStateById(string State_id);
+        Task<List<string>> GetListOfAllZIPs_Filter_StateCity(string State_id, string City);
     }
 }

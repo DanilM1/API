@@ -10,20 +10,20 @@ namespace API.Controllers
     [Route("[controller]")]
     public class C_SICs : Controller
     {
-        private readonly I_SIC obj;
+        private readonly I_SIC I_SIC;
         private readonly IMapper mapper;
 
-        public C_SICs(I_SIC obj, IMapper mapper)
+        public C_SICs(I_SIC I_SIC, IMapper mapper)
         {
-            this.obj = obj;
+            this.I_SIC = I_SIC;
             this.mapper = mapper;
         }
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetAllAsync(string sGroupCode)
+        public async Task<IActionResult> GetListOfAllSICs_Filter_sGroupCode(string sGroupCode)
         {
-            return Ok(mapper.Map<List<DTO_SIC>>(await obj.GetAllAsync(sGroupCode)));
+            return Ok(mapper.Map<List<DTO_SIC>>(await I_SIC.GetListOfAllSICs_Filter_sGroupCode(sGroupCode)));
         }
     }
 }

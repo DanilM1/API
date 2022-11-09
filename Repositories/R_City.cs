@@ -1,5 +1,4 @@
 ﻿using API.Data;
-using API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -13,14 +12,16 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_City>> GetAllAsync(string State_id)
+        public async Task<List<string>> GetListOfAllCitiesOfStateById(string State_id)
         {
-            return await APIDbContext.Cities.Where(x => x.D_State.State_id == State_id).GroupBy(x => x.City).Select(x => x.First()).ToListAsync();
+            List<string> list = await APIDbContext.Cities.Where(x => x.D_State.State_id == State_id).Select(x => x.City).Distinct().ToListAsync();
+            return list;
         }
 
-        public async Task<IEnumerable<D_City>> GetAllAsync2(string State_id, string City)
+        public async Task<List<string>> GetListOfAllZIPs_Filter_StateCity(string State_id, string City)
         {
-            return await APIDbContext.Cities.Where(x => x.D_State.State_id == State_id && x.City == City).ToListAsync();
+            List<string> list = await APIDbContext.Cities.Where(x => x.D_State.State_id == State_id && x.City == City).Select(x => x.ZIP).ToListAsync();
+            return list;
         }
     }
 }

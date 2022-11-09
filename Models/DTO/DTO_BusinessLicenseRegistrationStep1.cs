@@ -1,9 +1,8 @@
-﻿using API.Models.Domain;
-
-namespace API.Models.DTO
+﻿namespace API.Models.DTO
 {
     public class DTO_BusinessLicenseRegistrationStep1
     {
+        public Guid vendorUser_Id { get; set; }
         public string sBusinessname_Legal { get; set; }
         public string sName_First_Soleproprietor { get; set; }
         public string sName_Mi_Soleproprietor { get; set; }

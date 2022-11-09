@@ -16,5 +16,7 @@
         public int? sSICCode_4 { get; set; } = null;
         public bool? ibusiness_located { get; set; } = null;
         public string directions_nearest_town { get; set; }
+
+        public int License_id { get; set; }
     }
 }

@@ -4,6 +4,6 @@ namespace API.Repositories
 {
     public interface I_State
     {
-        Task<IEnumerable<D_State>> GetAllAsync();
+        Task<IEnumerable<D_State>> GetListOfAllStates();
     }
 }

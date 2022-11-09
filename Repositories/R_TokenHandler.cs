@@ -14,7 +14,7 @@ namespace API.Repositories
         {
             this.configuration = configuration;
         }
-        public Task<string> CreateTokenAsync(D_User User)
+        public Task<string> CreateToken(D_User User)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 

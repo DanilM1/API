@@ -13,7 +13,7 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_State>> GetAllAsync()
+        public async Task<IEnumerable<D_State>> GetListOfAllStates()
         {
             return await APIDbContext.States.ToListAsync();
         }

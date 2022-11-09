@@ -14,5 +14,7 @@
         public string sCTT_Id_Current { get; set; }
         public bool? bCTT_Id_Cancel { get; set; } = null;
         public DateTime? dCTT_Id_CancelEff { get; set; } = null;
+
+        public int License_id { get; set; }
     }
 }

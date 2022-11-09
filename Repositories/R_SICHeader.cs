@@ -1,5 +1,4 @@
 ﻿using API.Data;
-using API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -13,9 +12,10 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_SICHeader>> GetAllAsync()
+        public async Task<List<string>> GetListOfAllSICHeaders()
         {
-            return await APIDbContext.SICHeaders.ToListAsync();
+            List<string> list = await APIDbContext.SICHeaders.Select(x => x.sGroupCode).ToListAsync();
+            return list;
         }
     }
 }

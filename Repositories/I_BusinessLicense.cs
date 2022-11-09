@@ -4,17 +4,17 @@ namespace API.Repositories
 {
     public interface I_BusinessLicense
     {
-        Task<IEnumerable<D_BusinessLicense>> GetAllAsync();
-        Task<int> GetAsync();
-        Task<D_BusinessLicense> GetMemberAsync(int iTemp_id);
-        Task<int> GetMembersAsync();
-        Task<int> GetAllCountAsync();
-        Task<IEnumerable<D_BusinessLicense>> GetAllDatesAsync(DateTime dStartDate, DateTime dEndDate);
-        Task<IEnumerable<D_BusinessLicense>> GetAllSICsAsync(string SICHeader, int SIC);
-        Task<string> AddAsync(D_BusinessLicense D_BusinessLicense);
-        Task<string> UpdateAsync2(int iTemp_id, D_BusinessLicense D_BusinessLicense);
-        Task<string> UpdateAsync3(int iTemp_id, D_BusinessLicense D_BusinessLicense);
-        Task<string> UpdateAsync4(int iTemp_id, D_BusinessLicense D_BusinessLicense);
-        Task<string> UpdateAsync5(int iTemp_id, D_BusinessLicense D_BusinessLicense);
+        Task<int> GetCountOfAllLicenses();
+        Task<int> GetCountOfAllLicensesWithOnlyMembers();
+        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses();
+        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff);
+        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode);
+
+        Task<string> AddNewLicense(D_BusinessLicense License);
+
+        Task<string> UpdateLicenseByIdStep2(int License_id, D_BusinessLicense License);
+        Task<string> UpdateLicenseByIdStep3(int License_id, D_BusinessLicense License);
+        Task<string> UpdateLicenseByIdStep4(int License_id, D_BusinessLicense License);
+        Task<string> UpdateLicenseByIdStep5(int License_id, D_BusinessLicense License);
     }
 }

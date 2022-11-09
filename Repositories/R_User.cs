@@ -13,7 +13,14 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<D_User> AuthenticateAsync(string Username, string Password)
+        public async Task<Guid> SignUp(D_User User)
+        {
+            await APIDbContext.Users.AddAsync(User);
+            await APIDbContext.SaveChangesAsync();
+            return User.User_id;
+        }
+
+        public async Task<D_User> SignIn(string Username, string Password)
         {
             var user = await APIDbContext.Users.FirstOrDefaultAsync(x => x.Username.ToLower() == Username.ToLower() && x.Password == Password);
             if (user == null) return null;
@@ -30,18 +37,6 @@ namespace API.Repositories
             }
             user.Password = null;
             return user;
-        }
-
-        public async Task<string> AddAsync(D_User User)
-        {
-            await APIDbContext.Users.AddAsync(User);
-            await APIDbContext.SaveChangesAsync();
-            return "You have the account.";
-        }
-
-        public async Task<int> GetAsync()
-        {
-            return await APIDbContext.Users.MaxAsync(x => x.User_id);
         }
     }
 }
