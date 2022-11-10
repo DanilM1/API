@@ -6,6 +6,7 @@ namespace API.Repositories
     {
         Task<int> GetCountOfAllLicenses();
         Task<int> GetCountOfAllLicensesWithOnlyMembers();
+        Task<int> GetMaxIdOftLicense_Filter_Vendor(Guid vendorUser_Id);
         Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses();
         Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff);
         Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode);

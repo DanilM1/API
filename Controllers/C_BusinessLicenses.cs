@@ -190,6 +190,8 @@ namespace API.Controllers
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> UpdateUpdateLicenseByIdStep5([FromBody] DTO_BusinessLicenseRegistrationStep5 args)
         {
+            if (!await ValidateUpdateLicenseByIdStep5(args)) return BadRequest(ModelState);
+
             var CountOfAllLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllLicensesWithOnlyMembers();
             var CountOfAllLicenses = await I_BusinessLicense.GetCountOfAllLicenses();
 
@@ -260,6 +262,10 @@ namespace API.Controllers
             }
             else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO3_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO3_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_Zip)} is invalid.");
 
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep2.vendorUser_Id);
+
+            if (Lisense_Id != BusinessLicenseRegistrationStep2.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.License_id), $"{nameof(BusinessLicenseRegistrationStep2.License_id)} is invalid.");
+
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
@@ -296,6 +302,10 @@ namespace API.Controllers
             }
             else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_4) || BusinessLicenseRegistrationStep3.sSICCode_4 != null) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_4)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_4)} is invalid.");
 
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep3.vendorUser_Id);
+
+            if (Lisense_Id != BusinessLicenseRegistrationStep3.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3.License_id), $"{nameof(BusinessLicenseRegistrationStep3.License_id)} is invalid.");
+
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
@@ -310,6 +320,21 @@ namespace API.Controllers
                 if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.prior_owner_City), $"{nameof(BusinessLicenseRegistrationStep4.prior_owner_City)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_State)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_Zip)} is invalid.");
             }
             else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.prior_owner_City), $"{nameof(BusinessLicenseRegistrationStep4.prior_owner_City)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_State)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_Zip)} is invalid.");
+
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep4.vendorUser_Id);
+
+            if (Lisense_Id != BusinessLicenseRegistrationStep4.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.License_id), $"{nameof(BusinessLicenseRegistrationStep4.License_id)} is invalid.");
+
+            if (ModelState.ErrorCount > 0) return false;
+
+            return true;
+        }
+
+        private async Task<bool> ValidateUpdateLicenseByIdStep5(DTO_BusinessLicenseRegistrationStep5 BusinessLicenseRegistrationStep5)
+        {
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep5.vendorUser_Id);
+
+            if (Lisense_Id != BusinessLicenseRegistrationStep5.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep5.License_id), $"{nameof(BusinessLicenseRegistrationStep5.License_id)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 

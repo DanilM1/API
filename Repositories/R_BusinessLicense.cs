@@ -23,6 +23,11 @@ namespace API.Repositories
             return await APIDbContext.BusinessLicenses.Where(x => x.bMember == true).CountAsync();
         }
 
+        public async Task<int> GetMaxIdOftLicense_Filter_Vendor(Guid vendorUser_Id)
+        {
+            return await APIDbContext.BusinessLicenses.Where(x => x.vendorUser_Id == vendorUser_Id).Select(x => x.License_id).MaxAsync();
+        }
+
         public async Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses()
         {
             return await APIDbContext.BusinessLicenses.ToListAsync();

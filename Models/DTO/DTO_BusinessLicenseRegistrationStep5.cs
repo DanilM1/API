@@ -1,7 +1,4 @@
-﻿using API.Models.Domain;
-using System.ComponentModel.DataAnnotations;
-
-namespace API.Models.DTO
+﻿namespace API.Models.DTO
 {
     public class DTO_BusinessLicenseRegistrationStep5
     {
@@ -9,7 +6,8 @@ namespace API.Models.DTO
         public string secretQuestion { get; set; }
         public string secretAnswer { get; set; }
         public string sEmail { get; set; }
-        
+
+        public Guid vendorUser_Id { get; set; }
         public int License_id { get; set; }
         public bool bMember { get; set; }
     }

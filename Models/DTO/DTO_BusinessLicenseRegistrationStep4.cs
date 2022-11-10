@@ -15,6 +15,7 @@
         public bool? bCTT_Id_Cancel { get; set; } = null;
         public DateTime? dCTT_Id_CancelEff { get; set; } = null;
 
+        public Guid vendorUser_Id { get; set; }
         public int License_id { get; set; }
     }
 }
