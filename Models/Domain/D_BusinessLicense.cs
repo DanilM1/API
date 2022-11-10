@@ -51,7 +51,7 @@ namespace API.Models.Domain
         [MaxLength(5)]
         public string sBusiness_Zip { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(254)]
         public string? sMailing_Address { get; set; }
 
         [MaxLength(50)]

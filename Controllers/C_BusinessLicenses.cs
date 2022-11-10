@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("~/C_BusinessLicenses/RegistrationStep1")]
+        [Route("~/C_BusinessLicense/RegistrationStep1")]
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> AddNewLicense(DTO_BusinessLicenseRegistrationStep1 args)
         {
@@ -80,7 +80,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Route("~/C_BusinessLicenses/RegistrationStep2")]
+        [Route("~/C_BusinessLicense/RegistrationStep2")]
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> UpdateLicenseByIdStep2([FromBody] DTO_BusinessLicenseRegistrationStep2 args)
         {
@@ -124,7 +124,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Route("~/C_BusinessLicenses/RegistrationStep3")]
+        [Route("~/C_BusinessLicense/RegistrationStep3")]
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> UpdateLicenseByIdStep3([FromBody] DTO_BusinessLicenseRegistrationStep3 args)
         {
@@ -156,7 +156,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Route("~/C_BusinessLicenses/RegistrationStep4")]
+        [Route("~/C_BusinessLicense/RegistrationStep4")]
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> UpdateLicenseByIdStep4([FromBody] DTO_BusinessLicenseRegistrationStep4 args)
         {
@@ -186,7 +186,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Route("~/C_BusinessLicenses/RegistrationStep5")]
+        [Route("~/C_BusinessLicense/RegistrationStep5")]
         [Authorize(Roles = "vendor")]
         public async Task<IActionResult> UpdateUpdateLicenseByIdStep5([FromBody] DTO_BusinessLicenseRegistrationStep5 args)
         {
@@ -196,7 +196,7 @@ namespace API.Controllers
             var buf = new D_BusinessLicense()
             {
                 applicationDate = DateTime.Now,
-                sLicenseNo = args.bMember == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers + 1}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers + 1}",
+                sLicenseNo = args.bMember == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
                 sPwd = args.sPwd,
                 secretQuestion = args.secretQuestion,
                 secretAnswer = args.secretAnswer,

@@ -2,7 +2,6 @@
 using API.Models.Domain;
 using API.Models.DTO;
 using API.Repositories;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,16 +17,13 @@ namespace API.Controllers
         private readonly I_User_Role user_role;
         private readonly I_TokenHandler tokenHandler;
 
-        private readonly IMapper mapper;
-
-        public C_Users(APIDbContext APIDbContext, I_User user, I_Role role, I_User_Role user_role, I_TokenHandler tokenHandler, IMapper mapper)
+        public C_Users(APIDbContext APIDbContext, I_User user, I_Role role, I_User_Role user_role, I_TokenHandler tokenHandler)
         {
             this.APIDbContext = APIDbContext;
             this.user = user;
             this.role = role;
             this.user_role = user_role;
             this.tokenHandler = tokenHandler;
-            this.mapper = mapper;
         }
 
         [HttpPost]

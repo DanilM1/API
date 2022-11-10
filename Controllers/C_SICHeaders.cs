@@ -1,6 +1,4 @@
-﻿using API.Models.DTO;
-using API.Repositories;
-using AutoMapper;
+﻿using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +9,10 @@ namespace API.Controllers
     public class C_SICHeaders : Controller
     {
         private readonly I_SICHeader I_SICHeader;
-        private readonly IMapper mapper;
 
-        public C_SICHeaders(I_SICHeader I_SICHeader, IMapper mapper)
+        public C_SICHeaders(I_SICHeader I_SICHeader)
         {
             this.I_SICHeader = I_SICHeader;
-            this.mapper = mapper;
         }
 
         [HttpGet]

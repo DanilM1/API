@@ -1,8 +1,10 @@
-﻿namespace API.Models.DTO
+﻿using API.Models.Domain;
+
+namespace API.Models.DTO
 {
     public class DTO_BusinessLicense
     {
-        public Guid vendor { get; set; }
+        public Guid vendorUser_Id { get; set; }
         public string sLicenseNo { get; set; }
         public int License_id { get; set; }
         public DateTime applicationDate { get; set; }
