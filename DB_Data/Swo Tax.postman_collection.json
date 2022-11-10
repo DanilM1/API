@@ -1,0 +1,608 @@
+{
+	"info": {
+		"_postman_id": "77b27581-d559-4cb9-804d-b211df4bacc3",
+		"name": "Swo Tax",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Admin\",\r\n  \"emailAddress\": \"admin@gmail.com\",\r\n  \"password\": \"1234qwerS!\",\r\n  \"firstName\": \"Swo\",\r\n  \"lastName\": \"Tax\",\r\n  \"roles\": [\r\n    \"reader\", \"vendor\", \"admin\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Users/SignUp",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Users",
+						"SignUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Admin\",\r\n  \"password\": \"1234qwerS!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Users/SignIn",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Users",
+						"SignIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "States",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_States",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_States"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cities",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Cities?State_id=AK",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Cities"
+					],
+					"query": [
+						{
+							"key": "State_id",
+							"value": "AK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ZIPs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_City/ZIPs?State_id=AK&City=Adak",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_City",
+						"ZIPs"
+					],
+					"query": [
+						{
+							"key": "State_id",
+							"value": "AK"
+						},
+						{
+							"key": "City",
+							"value": "Adak"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SICHeaders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_SICHeaders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_SICHeaders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SICs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3Mzc0MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.W19cQkLqKKUeeeq8WjBZOFzYNXhZcS6f4MDFM1iymiw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_SICs?sGroupCode=115",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_SICs"
+					],
+					"query": [
+						{
+							"key": "sGroupCode",
+							"value": "115"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7222/C_Roles",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTE0NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.BEgjyFqPR6vfm7tFrCOiesM036F4SxqGPIrVF88CacE",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"vendorUser_Id\": \"e45fc896-0638-4aa2-9eef-61d238fdc97b\",\r\n  \"sBusinessname_Legal\": \"CamelGood\",\r\n  \"sName_First_Soleproprietor\": \"CatMeow\",\r\n  \"sName_Mi_Soleproprietor\": \"lt\",\r\n  \"sName_Last_Soleproprietor\": \"DogHard\",\r\n  \"sBusinessName_trade\": \"LTD.\",\r\n  \"sFIDSSN\": \"123456789012\",\r\n  \"sBusiness_Address\": \"Dacota Programming\",\r\n  \"sBusiness_City\": \"Adak\",\r\n  \"sBusiness_State\": \"AK\",\r\n  \"sBusiness_Zip\": \"99546\",\r\n  \"sMailing_Address\": \"dacota_programming@gmail.com\",\r\n  \"sMailing_City\": \"\",\r\n  \"sMailing_State\": \"\",\r\n  \"sMailing_Zip\": \"\",\r\n  \"sPhoneNo_DayTime\": \"12345-123-1234\",\r\n  \"sPhoneNo_Other\": \"\",\r\n  \"sFaxNo\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sOPO1_Name\": \"\",\r\n  \"sOPO1_Title\": \"\",\r\n  \"sOPO1_BusinessPhone\": \"\",\r\n  \"sOPO1_HomePhone\": \"\",\r\n  \"sOPO1_HomeAddress\": \"\",\r\n  \"sOPO1_City\": \"\",\r\n  \"sOPO1_State\": \"\",\r\n  \"sOPO1_Zip\": \"\",\r\n  \"sOPO2_Name\": \"\",\r\n  \"sOPO2_Title\": \"\",\r\n  \"sOPO2_BusinessPhone\": \"\",\r\n  \"sOPO2_HomePhone\": \"\",\r\n  \"sOPO2_HomeAddress\": \"\",\r\n  \"sOPO2_City\": \"\",\r\n  \"sOPO2_State\": \"\",\r\n  \"sOPO2_Zip\": \"\",\r\n  \"sOPO3_Name\": \"\",\r\n  \"sOPO3_Title\": \"\",\r\n  \"sOPO3_BusinessPhone\": \"\",\r\n  \"sOPO3_HomePhone\": \"\",\r\n  \"sOPO3_HomeAddress\": \"\",\r\n  \"sOPO3_City\": \"\",\r\n  \"sOPO3_State\": \"\",\r\n  \"sOPO3_Zip\": \"\",\r\n  \"license_id\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep3",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"iType_LegalOrg\": \"\",\r\n  \"bMember\": false,\r\n  \"iOwned_SWST_Percent\": 5,\r\n  \"iOwned_AmeriIndian_percent\": 95,\r\n  \"sGroupCode_1\": \"100\",\r\n  \"sSICCode_1\": 5812,\r\n  \"sGroupCode_2\": \"105\",\r\n  \"sSICCode_2\": 5010,\r\n  \"sGroupCode_3\": \"110\",\r\n  \"sSICCode_3\": 4000,\r\n  \"sGroupCode_4\": \"115\",\r\n  \"sSICCode_4\": 7620,\r\n  \"ibusiness_located\": true,\r\n  \"directions_nearest_town\": \"alright\",\r\n  \"license_id\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep4",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"iReason_License\": \"I want very much\",\r\n  \"prior_owner_Name\": \"\",\r\n  \"prior_owner_Title\": \"\",\r\n  \"prior_owner_BusinessPhone\": \"\",\r\n  \"prior_owner_HomePhone\": \"\",\r\n  \"prior_owner_HomeAddress\": \"\",\r\n  \"prior_owner_City\": \"\",\r\n  \"prior_owner_State\": \"\",\r\n  \"prior_owner_Zip\": \"\",\r\n  \"sCTT_Id_Current\": \"\",\r\n  \"bCTT_Id_Cancel\": true,\r\n  \"dCTT_Id_CancelEff\": \"2025-11-10T09:38:55.364Z\",\r\n  \"license_id\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep5",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sPwd\": \"1234qwerS!\",\r\n  \"secretQuestion\": \"A little black cat\",\r\n  \"secretAnswer\": \"Daria\",\r\n  \"sEmail\": \"admin@gmail.com\",\r\n  \"license_id\": 6,\r\n  \"bMember\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AllBusinessLicenses",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicenses",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenses-Filter_Dates",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicenses/Filter_Dates?applicationDate=2021-9-10&dCTT_Id_CancelEff=2026-9-10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicenses",
+						"Filter_Dates"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2021-9-10"
+						},
+						{
+							"key": "dCTT_Id_CancelEff",
+							"value": "2026-9-10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenses-Filter_SICs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA3NTY5NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.q3oslb9hZNG-rx3d1zCBbDR_Z1P5Y3pBcbx7gG1UOxw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicenses/Filter_SICs?sGroupCode=115&sSICCode=7620",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicenses",
+						"Filter_SICs"
+					],
+					"query": [
+						{
+							"key": "sGroupCode",
+							"value": "115"
+						},
+						{
+							"key": "sSICCode",
+							"value": "7620"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
