@@ -188,7 +188,7 @@ namespace API.Controllers
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep5")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> UpdateUpdateLicenseByIdStep5([FromBody] DTO_BusinessLicenseRegistrationStep5 args)
+        public async Task<IActionResult> UpdateLicenseByIdStep5([FromBody] DTO_BusinessLicenseRegistrationStep5 args)
         {
             if (!await ValidateUpdateLicenseByIdStep5(args)) return BadRequest(ModelState);
 
@@ -213,128 +213,128 @@ namespace API.Controllers
         }
 
         #region Private methods
-        private async Task<bool> ValidateAddNewLicense(DTO_BusinessLicenseRegistrationStep1 BusinessLicenseRegistrationStep1)
+        private async Task<bool> ValidateAddNewLicense(DTO_BusinessLicenseRegistrationStep1 args)
         {
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sBusiness_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sBusiness_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sBusiness_Zip))
+            if (!String.IsNullOrEmpty(args.sBusiness_City) && !String.IsNullOrEmpty(args.sBusiness_State) && !String.IsNullOrEmpty(args.sBusiness_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep1.sBusiness_City && x.D_State.State_id == BusinessLicenseRegistrationStep1.sBusiness_State && x.ZIP == BusinessLicenseRegistrationStep1.sBusiness_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sBusiness_City && x.D_State.State_id == args.sBusiness_State && x.ZIP == args.sBusiness_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep1.sBusiness_City), $"{nameof(BusinessLicenseRegistrationStep1.sBusiness_City)} or {nameof(BusinessLicenseRegistrationStep1.sBusiness_State)} or {nameof(BusinessLicenseRegistrationStep1.sBusiness_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.sBusiness_City), $"{nameof(args.sBusiness_City)} or {nameof(args.sBusiness_State)} or {nameof(args.sBusiness_Zip)} is invalid.");
             }
-            else ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep1.sBusiness_City), $"{nameof(BusinessLicenseRegistrationStep1.sBusiness_City)} or {nameof(BusinessLicenseRegistrationStep1.sBusiness_State)} or {nameof(BusinessLicenseRegistrationStep1.sBusiness_Zip)} is invalid.");
+            else ModelState.AddModelError(nameof(args.sBusiness_City), $"{nameof(args.sBusiness_City)} or {nameof(args.sBusiness_State)} or {nameof(args.sBusiness_Zip)} is invalid.");
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_Zip))
+            if (!String.IsNullOrEmpty(args.sMailing_City) && !String.IsNullOrEmpty(args.sMailing_State) && !String.IsNullOrEmpty(args.sMailing_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep1.sMailing_City && x.D_State.State_id == BusinessLicenseRegistrationStep1.sMailing_State && x.ZIP == BusinessLicenseRegistrationStep1.sMailing_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sMailing_City && x.D_State.State_id == args.sMailing_State && x.ZIP == args.sMailing_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep1.sMailing_City), $"{nameof(BusinessLicenseRegistrationStep1.sMailing_City)} or {nameof(BusinessLicenseRegistrationStep1.sMailing_State)} or {nameof(BusinessLicenseRegistrationStep1.sMailing_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.sMailing_City), $"{nameof(args.sMailing_City)} or {nameof(args.sMailing_State)} or {nameof(args.sMailing_Zip)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep1.sMailing_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep1.sMailing_City), $"{nameof(BusinessLicenseRegistrationStep1.sMailing_City)} or {nameof(BusinessLicenseRegistrationStep1.sMailing_State)} or {nameof(BusinessLicenseRegistrationStep1.sMailing_Zip)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sMailing_City) || !String.IsNullOrEmpty(args.sMailing_State) || !String.IsNullOrEmpty(args.sMailing_Zip)) ModelState.AddModelError(nameof(args.sMailing_City), $"{nameof(args.sMailing_City)} or {nameof(args.sMailing_State)} or {nameof(args.sMailing_Zip)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep2(DTO_BusinessLicenseRegistrationStep2 BusinessLicenseRegistrationStep2)
+        private async Task<bool> ValidateUpdateLicenseByIdStep2(DTO_BusinessLicenseRegistrationStep2 args)
         {
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_Zip))
+            if (!String.IsNullOrEmpty(args.sOPO1_City) && !String.IsNullOrEmpty(args.sOPO1_State) && !String.IsNullOrEmpty(args.sOPO1_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep2.sOPO1_City && x.D_State.State_id == BusinessLicenseRegistrationStep2.sOPO1_State && x.ZIP == BusinessLicenseRegistrationStep2.sOPO1_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO1_City && x.D_State.State_id == args.sOPO1_State && x.ZIP == args.sOPO1_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO1_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO1_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO1_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO1_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.sOPO1_City), $"{nameof(args.sOPO1_City)} or {nameof(args.sOPO1_State)} or {nameof(args.sOPO1_Zip)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO1_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO1_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO1_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO1_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO1_Zip)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sOPO1_City) || !String.IsNullOrEmpty(args.sOPO1_State) || !String.IsNullOrEmpty(args.sOPO1_Zip)) ModelState.AddModelError(nameof(args.sOPO1_City), $"{nameof(args.sOPO1_City)} or {nameof(args.sOPO1_State)} or {nameof(args.sOPO1_Zip)} is invalid.");
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_Zip))
+            if (!String.IsNullOrEmpty(args.sOPO2_City) && !String.IsNullOrEmpty(args.sOPO2_State) && !String.IsNullOrEmpty(args.sOPO2_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep2.sOPO2_City && x.D_State.State_id == BusinessLicenseRegistrationStep2.sOPO2_State && x.ZIP == BusinessLicenseRegistrationStep2.sOPO2_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO2_City && x.D_State.State_id == args.sOPO2_State && x.ZIP == args.sOPO2_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO2_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO2_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO2_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO2_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.sOPO2_City), $"{nameof(args.sOPO2_City)} or {nameof(args.sOPO2_State)} or {nameof(args.sOPO2_Zip)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO2_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO2_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO2_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO2_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO2_Zip)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sOPO2_City) || !String.IsNullOrEmpty(args.sOPO2_State) || !String.IsNullOrEmpty(args.sOPO2_Zip)) ModelState.AddModelError(nameof(args.sOPO2_City), $"{nameof(args.sOPO2_City)} or {nameof(args.sOPO2_State)} or {nameof(args.sOPO2_Zip)} is invalid.");
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_Zip))
+            if (!String.IsNullOrEmpty(args.sOPO3_City) && !String.IsNullOrEmpty(args.sOPO3_State) && !String.IsNullOrEmpty(args.sOPO3_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep2.sOPO3_City && x.D_State.State_id == BusinessLicenseRegistrationStep2.sOPO3_State && x.ZIP == BusinessLicenseRegistrationStep2.sOPO3_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO3_City && x.D_State.State_id == args.sOPO3_State && x.ZIP == args.sOPO3_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO3_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO3_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.sOPO3_City), $"{nameof(args.sOPO3_City)} or {nameof(args.sOPO3_State)} or {nameof(args.sOPO3_Zip)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep2.sOPO3_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.sOPO3_City), $"{nameof(BusinessLicenseRegistrationStep2.sOPO3_City)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_State)} or {nameof(BusinessLicenseRegistrationStep2.sOPO3_Zip)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sOPO3_City) || !String.IsNullOrEmpty(args.sOPO3_State) || !String.IsNullOrEmpty(args.sOPO3_Zip)) ModelState.AddModelError(nameof(args.sOPO3_City), $"{nameof(args.sOPO3_City)} or {nameof(args.sOPO3_State)} or {nameof(args.sOPO3_Zip)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep2.vendorUser_Id);
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
 
-            if (Lisense_Id != BusinessLicenseRegistrationStep2.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep2.License_id), $"{nameof(BusinessLicenseRegistrationStep2.License_id)} is invalid.");
+            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep3(DTO_BusinessLicenseRegistrationStep3 BusinessLicenseRegistrationStep3)
+        private async Task<bool> ValidateUpdateLicenseByIdStep3(DTO_BusinessLicenseRegistrationStep3 args)
         {
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_1) && BusinessLicenseRegistrationStep3.sSICCode_1 != null)
+            if (!String.IsNullOrEmpty(args.sGroupCode_1) && args.sSICCode_1 != null)
             {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == BusinessLicenseRegistrationStep3.sGroupCode_1 && x.sSICCode == BusinessLicenseRegistrationStep3.sSICCode_1);
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_1)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_1)} is invalid.");
+                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_1 && x.sSICCode == args.sSICCode_1);
+                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_1)} or {nameof(args.sSICCode_1)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_1) || BusinessLicenseRegistrationStep3.sSICCode_1 != null) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_1)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_1)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sGroupCode_1) || args.sSICCode_1 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_1)} or {nameof(args.sSICCode_1)} is invalid.");
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_2) && BusinessLicenseRegistrationStep3.sSICCode_2 != null)
+            if (!String.IsNullOrEmpty(args.sGroupCode_2) && args.sSICCode_2 != null)
             {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == BusinessLicenseRegistrationStep3.sGroupCode_2 && x.sSICCode == BusinessLicenseRegistrationStep3.sSICCode_2);
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_2)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_2)} is invalid.");
+                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_2 && x.sSICCode == args.sSICCode_2);
+                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_2)} or {nameof(args.sSICCode_2)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_2) || BusinessLicenseRegistrationStep3.sSICCode_2 != null) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_2)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_2)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sGroupCode_2) || args.sSICCode_2 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_2)} or {nameof(args.sSICCode_2)} is invalid.");
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_3) && BusinessLicenseRegistrationStep3.sSICCode_3 != null)
+            if (!String.IsNullOrEmpty(args.sGroupCode_3) && args.sSICCode_3 != null)
             {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == BusinessLicenseRegistrationStep3.sGroupCode_3 && x.sSICCode == BusinessLicenseRegistrationStep3.sSICCode_3);
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_3)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_3)} is invalid.");
+                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_3 && x.sSICCode == args.sSICCode_3);
+                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_3)} or {nameof(args.sSICCode_3)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_3) || BusinessLicenseRegistrationStep3.sSICCode_3 != null) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_3)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_3)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sGroupCode_3) || args.sSICCode_3 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_3)} or {nameof(args.sSICCode_3)} is invalid.");
 
 
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_4) && BusinessLicenseRegistrationStep3.sSICCode_4 != null)
+            if (!String.IsNullOrEmpty(args.sGroupCode_4) && args.sSICCode_4 != null)
             {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == BusinessLicenseRegistrationStep3.sGroupCode_4 && x.sSICCode == BusinessLicenseRegistrationStep3.sSICCode_4);
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_4)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_4)} is invalid.");
+                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_4 && x.sSICCode == args.sSICCode_4);
+                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_4)} or {nameof(args.sSICCode_4)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep3.sGroupCode_4) || BusinessLicenseRegistrationStep3.sSICCode_4 != null) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3), $"{nameof(BusinessLicenseRegistrationStep3.sGroupCode_4)} or {nameof(BusinessLicenseRegistrationStep3.sSICCode_4)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.sGroupCode_4) || args.sSICCode_4 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_4)} or {nameof(args.sSICCode_4)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep3.vendorUser_Id);
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
 
-            if (Lisense_Id != BusinessLicenseRegistrationStep3.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep3.License_id), $"{nameof(BusinessLicenseRegistrationStep3.License_id)} is invalid.");
+            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep4(DTO_BusinessLicenseRegistrationStep4 BusinessLicenseRegistrationStep4)
+        private async Task<bool> ValidateUpdateLicenseByIdStep4(DTO_BusinessLicenseRegistrationStep4 args)
         {
-            if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_City) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_State) && !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_Zip))
+            if (!String.IsNullOrEmpty(args.prior_owner_City) && !String.IsNullOrEmpty(args.prior_owner_State) && !String.IsNullOrEmpty(args.prior_owner_Zip))
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == BusinessLicenseRegistrationStep4.prior_owner_City && x.D_State.State_id == BusinessLicenseRegistrationStep4.prior_owner_State && x.ZIP == BusinessLicenseRegistrationStep4.prior_owner_Zip);
+                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.prior_owner_City && x.D_State.State_id == args.prior_owner_State && x.ZIP == args.prior_owner_Zip);
 
-                if (!buf) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.prior_owner_City), $"{nameof(BusinessLicenseRegistrationStep4.prior_owner_City)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_State)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_Zip)} is invalid.");
+                if (!buf) ModelState.AddModelError(nameof(args.prior_owner_City), $"{nameof(args.prior_owner_City)} or {nameof(args.prior_owner_State)} or {nameof(args.prior_owner_Zip)} is invalid.");
             }
-            else if (!String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_City) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_State) || !String.IsNullOrEmpty(BusinessLicenseRegistrationStep4.prior_owner_Zip)) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.prior_owner_City), $"{nameof(BusinessLicenseRegistrationStep4.prior_owner_City)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_State)} or {nameof(BusinessLicenseRegistrationStep4.prior_owner_Zip)} is invalid.");
+            else if (!String.IsNullOrEmpty(args.prior_owner_City) || !String.IsNullOrEmpty(args.prior_owner_State) || !String.IsNullOrEmpty(args.prior_owner_Zip)) ModelState.AddModelError(nameof(args.prior_owner_City), $"{nameof(args.prior_owner_City)} or {nameof(args.prior_owner_State)} or {nameof(args.prior_owner_Zip)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep4.vendorUser_Id);
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
 
-            if (Lisense_Id != BusinessLicenseRegistrationStep4.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep4.License_id), $"{nameof(BusinessLicenseRegistrationStep4.License_id)} is invalid.");
+            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep5(DTO_BusinessLicenseRegistrationStep5 BusinessLicenseRegistrationStep5)
+        private async Task<bool> ValidateUpdateLicenseByIdStep5(DTO_BusinessLicenseRegistrationStep5 args)
         {
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(BusinessLicenseRegistrationStep5.vendorUser_Id);
+            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
 
-            if (Lisense_Id != BusinessLicenseRegistrationStep5.License_id) ModelState.AddModelError(nameof(BusinessLicenseRegistrationStep5.License_id), $"{nameof(BusinessLicenseRegistrationStep5.License_id)} is invalid.");
+            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 

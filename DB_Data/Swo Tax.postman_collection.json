@@ -6,6 +6,31 @@
 	},
 	"item": [
 		{
+			"name": "Roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7222/C_Roles",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Sign up",
 			"request": {
 				"method": "POST",
@@ -266,31 +291,6 @@
 							"key": "sGroupCode",
 							"value": "115"
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Roles",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTd28iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiVGF4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInJlYWRlciIsInZlbmRvciIsImFkbWluIl0sImV4cCI6MTY2ODA2OTUyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyJ9.s_bVmQLCI68-CyE94sQraYB1FfN5WlEp1uDsLLOg0YM",
-						"type": "default"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:7222/C_Roles",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "7222",
-					"path": [
-						"C_Roles"
 					]
 				}
 			},
