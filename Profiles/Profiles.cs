@@ -8,7 +8,6 @@ namespace API.Profiles
     {
         public Profiles()
         {
-            CreateMap<D_Role, DTO_Role>().ReverseMap();
             CreateMap<D_SIC, DTO_SIC>().ReverseMap();
             CreateMap<D_State, DTO_State>().ReverseMap();
             CreateMap<D_BusinessLicense, DTO_BusinessLicense>().ReverseMap();

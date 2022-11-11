@@ -13,9 +13,10 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_Role>> GetListOfAllRoles()
+        public async Task<List<string>> GetListOfAllRoles()
         {
-            return await APIDbContext.Roles.ToListAsync();
+            List<string> list = await APIDbContext.Roles.Select(x => x.Name).ToListAsync();
+            return list;
         }
 
         public async Task<D_Role> GetRoleId_Filter_Name(string Name)
