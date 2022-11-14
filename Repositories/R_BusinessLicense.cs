@@ -23,9 +23,14 @@ namespace API.Repositories
             return await APIDbContext.BusinessLicenses.Where(x => x.bMember == true).CountAsync();
         }
 
-        public async Task<int> GetMaxIdOftLicense_Filter_Vendor(Guid vendorUser_Id)
+        public async Task<int?> GetMaxIdOfLicense_Filter_Vendor(Guid vendorUser_Id)
         {
             return await APIDbContext.BusinessLicenses.Where(x => x.vendorUser_Id == vendorUser_Id).Select(x => x.License_id).MaxAsync();
+        }
+
+        public async Task<D_BusinessLicense> GetLicense_Filter_LisenseId(int? License_id)
+        {
+            return await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
         }
 
         public async Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses()
@@ -55,7 +60,7 @@ namespace API.Repositories
             return "1 step was success";
         }
 
-        public async Task<string> UpdateLicenseByIdStep2(int License_id, D_BusinessLicense License)
+        public async Task<string> UpdateLicenseByIdStep2(int? License_id, D_BusinessLicense License)
         {
             var buf = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
 
@@ -92,7 +97,7 @@ namespace API.Repositories
             return "2 step was success";
         }
 
-        public async Task<string> UpdateLicenseByIdStep3(int License_id, D_BusinessLicense License)
+        public async Task<string> UpdateLicenseByIdStep3(int? License_id, D_BusinessLicense License)
         {
             var buf = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
 
@@ -117,7 +122,7 @@ namespace API.Repositories
             return "3 step was success";
         }
 
-        public async Task<string> UpdateLicenseByIdStep4(int License_id, D_BusinessLicense License)
+        public async Task<string> UpdateLicenseByIdStep4(int? License_id, D_BusinessLicense License)
         {
             var buf = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
 
@@ -139,13 +144,12 @@ namespace API.Repositories
             await APIDbContext.SaveChangesAsync();
             return "4 step was success";
         }
-        public async Task<string> UpdateLicenseByIdStep5(int License_id, D_BusinessLicense License)
+        public async Task<string> UpdateLicenseByIdStep5(int? License_id, D_BusinessLicense License)
         {
             var buf = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
 
             if (buf == null) return null;
 
-            buf.vendor = License.vendor;
             buf.applicationDate = License.applicationDate;
             buf.sLicenseNo = License.sLicenseNo;
             buf.sPwd = License.sPwd;

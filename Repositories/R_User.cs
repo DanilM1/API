@@ -32,11 +32,16 @@ namespace API.Repositories
                 foreach (var userRole in userRoles)
                 {
                     var role = await APIDbContext.Roles.FirstOrDefaultAsync(x => x.Role_id == userRole.RoleId);
-                    if (role != null) user.Roles.Add(role.Name);
+                    if (role != null) user.Roles.Add(role.Role);
                 }
             }
             user.Password = null;
             return user;
+        }
+
+        public async Task<D_User> GetUserId_Filter_Username(string Username)
+        {
+            return await APIDbContext.Users.FirstOrDefaultAsync(x => x.Username == Username);
         }
     }
 }

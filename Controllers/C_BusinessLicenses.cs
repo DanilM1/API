@@ -14,12 +14,14 @@ namespace API.Controllers
     public class C_BusinessLicenses : Controller
     {
         private readonly APIDbContext APIDbContext;
+        private readonly I_User I_User;
         private readonly I_BusinessLicense I_BusinessLicense;
         private readonly IMapper mapper;
 
-        public C_BusinessLicenses(APIDbContext APIDbContext, I_BusinessLicense I_BusinessLicense, IMapper mapper)
+        public C_BusinessLicenses(APIDbContext APIDbContext, I_User I_User, I_BusinessLicense I_BusinessLicense, IMapper mapper)
         {
             this.APIDbContext = APIDbContext;
+            this.I_User = I_User;
             this.I_BusinessLicense = I_BusinessLicense;
             this.mapper = mapper;
         }
@@ -54,9 +56,11 @@ namespace API.Controllers
         {
             if (!await ValidateAddNewLicense(args)) return BadRequest(ModelState);
 
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
+
             var buf = new D_BusinessLicense()
             {
-                vendorUser_Id = args.vendorUser_Id,
+                vendorUser_Id = vendor.User_id,
                 sBusinessname_Legal = args.sBusinessname_Legal,
                 sName_First_Soleproprietor = args.sName_First_Soleproprietor,
                 sName_Mi_Soleproprietor = args.sName_Mi_Soleproprietor,
@@ -85,6 +89,10 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateLicenseByIdStep2([FromBody] DTO_BusinessLicenseRegistrationStep2 args)
         {
             if (!await ValidateUpdateLicenseByIdStep2(args)) return BadRequest(ModelState);
+
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
+
+            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
 
             var buf = new D_BusinessLicense()
             {
@@ -116,7 +124,7 @@ namespace API.Controllers
                 sOPO3_Zip = args.sOPO3_Zip
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep2(args.License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseByIdStep2(License_id, buf);
 
             if (answer == null) return NotFound();
 
@@ -129,6 +137,10 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateLicenseByIdStep3([FromBody] DTO_BusinessLicenseRegistrationStep3 args)
         {
             if (!await ValidateUpdateLicenseByIdStep3(args)) return BadRequest(ModelState);
+            
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
+
+            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
 
             var buf = new D_BusinessLicense()
             {
@@ -148,7 +160,7 @@ namespace API.Controllers
                 directions_nearest_town = args.directions_nearest_town
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep3(args.License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseByIdStep3(License_id, buf);
 
             if (answer == null) return NotFound();
 
@@ -161,6 +173,10 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateLicenseByIdStep4([FromBody] DTO_BusinessLicenseRegistrationStep4 args)
         {
             if (!await ValidateUpdateLicenseByIdStep4(args)) return BadRequest(ModelState);
+            
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
+
+            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
 
             var buf = new D_BusinessLicense()
             {
@@ -178,7 +194,7 @@ namespace API.Controllers
                 dCTT_Id_CancelEff = args.dCTT_Id_CancelEff
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep4(args.License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseByIdStep4(License_id, buf);
 
             if (answer == null) return NotFound();
 
@@ -195,17 +211,23 @@ namespace API.Controllers
             var CountOfAllLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllLicensesWithOnlyMembers();
             var CountOfAllLicenses = await I_BusinessLicense.GetCountOfAllLicenses();
 
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
+
+            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+
+            var License = await I_BusinessLicense.GetLicense_Filter_LisenseId(License_id);
+
             var buf = new D_BusinessLicense()
             {
                 applicationDate = DateTime.Now,
-                sLicenseNo = args.bMember == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
+                sLicenseNo = License.bMember == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
                 sPwd = args.sPwd,
                 secretQuestion = args.secretQuestion,
                 secretAnswer = args.secretAnswer,
                 sEmail = args.sEmail
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep5(args.License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseByIdStep5(License_id, buf);
 
             if (answer == null) return NotFound();
 
@@ -262,9 +284,15 @@ namespace API.Controllers
             }
             else if (!String.IsNullOrEmpty(args.sOPO3_City) || !String.IsNullOrEmpty(args.sOPO3_State) || !String.IsNullOrEmpty(args.sOPO3_Zip)) ModelState.AddModelError(nameof(args.sOPO3_City), $"{nameof(args.sOPO3_City)} or {nameof(args.sOPO3_State)} or {nameof(args.sOPO3_Zip)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
 
-            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
+            if (vendor == null) ModelState.AddModelError(nameof(args.vendor), $"{nameof(args.vendor)} is invalid.");
+            else
+            {
+                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+
+                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+            }
 
             if (ModelState.ErrorCount > 0) return false;
 
@@ -302,9 +330,15 @@ namespace API.Controllers
             }
             else if (!String.IsNullOrEmpty(args.sGroupCode_4) || args.sSICCode_4 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_4)} or {nameof(args.sSICCode_4)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
 
-            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
+            if (vendor == null) ModelState.AddModelError(nameof(args.vendor), $"{nameof(args.vendor)} is invalid.");
+            else
+            {
+                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+
+                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+            }
 
             if (ModelState.ErrorCount > 0) return false;
 
@@ -321,9 +355,15 @@ namespace API.Controllers
             }
             else if (!String.IsNullOrEmpty(args.prior_owner_City) || !String.IsNullOrEmpty(args.prior_owner_State) || !String.IsNullOrEmpty(args.prior_owner_Zip)) ModelState.AddModelError(nameof(args.prior_owner_City), $"{nameof(args.prior_owner_City)} or {nameof(args.prior_owner_State)} or {nameof(args.prior_owner_Zip)} is invalid.");
 
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
 
-            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
+            if (vendor == null) ModelState.AddModelError(nameof(args.vendor), $"{nameof(args.vendor)} is invalid.");
+            else
+            {
+                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+
+                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+            }
 
             if (ModelState.ErrorCount > 0) return false;
 
@@ -332,9 +372,15 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateLicenseByIdStep5(DTO_BusinessLicenseRegistrationStep5 args)
         {
-            var Lisense_Id = await I_BusinessLicense.GetMaxIdOftLicense_Filter_Vendor(args.vendorUser_Id);
+            var vendor = await I_User.GetUserId_Filter_Username(args.vendor);
 
-            if (Lisense_Id != args.License_id) ModelState.AddModelError(nameof(args.License_id), $"{nameof(args.License_id)} is invalid.");
+            if (vendor == null) ModelState.AddModelError(nameof(args.vendor), $"{nameof(args.vendor)} is invalid.");
+            else
+            {
+                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+
+                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+            }
 
             if (ModelState.ErrorCount > 0) return false;
 

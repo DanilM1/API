@@ -20,8 +20,6 @@ namespace API.Repositories
 
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.GivenName, User.FirstName));
-            claims.Add(new Claim(ClaimTypes.Surname, User.LastName));
-            claims.Add(new Claim(ClaimTypes.Email, User.EmailAddress));
 
             User.Roles.ForEach((role) =>
             {

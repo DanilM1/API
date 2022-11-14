@@ -4,9 +4,8 @@ namespace API.Models.DTO
 {
     public class DTO_BusinessLicense
     {
-        public Guid vendorUser_Id { get; set; }
+        public string vendor { get; set; }
         public string sLicenseNo { get; set; }
-        public int License_id { get; set; }
         public DateTime applicationDate { get; set; }
         public DateTime? dCTT_Id_CancelEff { get; set; }
         public string sName_First_Soleproprietor { get; set; }

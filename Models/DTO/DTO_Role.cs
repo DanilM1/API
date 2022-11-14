@@ -2,7 +2,6 @@
 {
     public class DTO_Role
     {
-        public int Role_id { get; set; }
-        public string Name { get; set; }
+        public string Role { get; set; }
     }
 }

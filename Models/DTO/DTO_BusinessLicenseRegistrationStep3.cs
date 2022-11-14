@@ -17,7 +17,6 @@
         public bool? ibusiness_located { get; set; } = null;
         public string directions_nearest_town { get; set; }
 
-        public Guid vendorUser_Id { get; set; }
-        public int License_id { get; set; }
+        public string vendor { get; set; }
     }
 }

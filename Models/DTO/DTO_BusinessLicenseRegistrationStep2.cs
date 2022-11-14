@@ -29,7 +29,6 @@
         public string sOPO3_State { get; set; }
         public string sOPO3_Zip { get; set; }
 
-        public Guid vendorUser_Id { get; set; }
-        public int License_id { get; set; }
+        public string vendor { get; set; }
     }
 }

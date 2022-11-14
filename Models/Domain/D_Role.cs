@@ -8,7 +8,7 @@ namespace API.Models.Domain
         public int Role_id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Role { get; set; }
 
         public List<D_User_Role> Users_Roles { get; set; }
     }
