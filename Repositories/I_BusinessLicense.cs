@@ -1,4 +1,5 @@
 ﻿using API.Models.Domain;
+using API.Models.DTO;
 
 namespace API.Repositories
 {
@@ -8,9 +9,9 @@ namespace API.Repositories
         Task<int> GetCountOfAllLicensesWithOnlyMembers();
         Task<int?> GetMaxIdOfLicense_Filter_Vendor(Guid vendorUser_Id);
         Task<D_BusinessLicense> GetLicense_Filter_LisenseId(int? License_id);
-        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses();
-        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff);
-        Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode);
+        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses();
+        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff);
+        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode);
 
         Task<string> AddNewLicense(D_BusinessLicense License);
 

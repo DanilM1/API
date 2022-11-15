@@ -41,7 +41,6 @@ namespace API.Validators
 
         public V_BusinessLicenseRegistrationStep1()
         {
-            RuleFor(x => x.vendor).NotEmpty();
             RuleFor(x => x.sBusinessname_Legal).NotEmpty().MinimumLength(3).MaximumLength(200);
             RuleFor(x => x.sName_First_Soleproprietor).NotEmpty().MaximumLength(200);
             RuleFor(x => x.sName_Mi_Soleproprietor).MaximumLength(5);
@@ -82,8 +81,6 @@ namespace API.Validators
             RuleFor(x => x.sOPO3_BusinessPhone).Matches(reg.phoneOrEmpty);
             RuleFor(x => x.sOPO3_HomePhone).Matches(reg.phoneOrEmpty);
             RuleFor(x => x.sOPO3_HomeAddress).MaximumLength(200);
-
-            RuleFor(x => x.vendor).NotEmpty();
         }
     }
 
@@ -96,7 +93,6 @@ namespace API.Validators
             RuleFor(x => x.iOwned_SWST_Percent).InclusiveBetween(0, 100);
             RuleFor(x => x.iOwned_AmeriIndian_percent).LessThanOrEqualTo(x => 100 - x.iOwned_SWST_Percent);
             RuleFor(x => x.directions_nearest_town).MaximumLength(200);
-            RuleFor(x => x.vendor).NotEmpty();
         }
     }
 
@@ -113,7 +109,7 @@ namespace API.Validators
             RuleFor(x => x.prior_owner_HomePhone).Matches(reg.phoneOrEmpty);
             RuleFor(x => x.prior_owner_HomeAddress).MaximumLength(200);
             RuleFor(x => x.sCTT_Id_Current).MaximumLength(200);
-            RuleFor(x => x.vendor).NotEmpty();
+            RuleFor(x => x.dCTT_Id_CancelEff).Must(x => x == null || x.GetType() == typeof(DateTime) && x > default(DateTime));
         }
     }
 
@@ -127,7 +123,6 @@ namespace API.Validators
             RuleFor(x => x.secretQuestion).MaximumLength(200);
             RuleFor(x => x.secretAnswer).MaximumLength(200);
             RuleFor(x => x.sEmail).MaximumLength(254).EmailAddress();
-            RuleFor(x => x.vendor).NotEmpty();
         }
     }
 }

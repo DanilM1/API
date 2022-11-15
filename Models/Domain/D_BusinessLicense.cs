@@ -32,8 +32,9 @@ namespace API.Models.Domain
         [MaxLength(200)]
         public string? sBusinessName_trade { get; set; }
 
+        [Required]
         [MaxLength(12)]
-        public string? sFIDSSN { get; set; }
+        public string sFIDSSN { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -72,6 +73,9 @@ namespace API.Models.Domain
 
         [MaxLength(14)]
         public string? sFaxNo { get; set; }
+
+        [Required]
+        public DateTime applicationDate { get; set; }
 
         // step 2
 
@@ -220,8 +224,6 @@ namespace API.Models.Domain
         public DateTime? dCTT_Id_CancelEff { get; set; }
 
         // step 5
-
-        public DateTime? applicationDate { get; set; }
 
         [MaxLength(8)]
         public string? sLicenseNo { get; set; }

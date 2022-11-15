@@ -28,7 +28,5 @@
         public string sOPO3_City { get; set; }
         public string sOPO3_State { get; set; }
         public string sOPO3_Zip { get; set; }
-
-        public string vendor { get; set; }
     }
 }

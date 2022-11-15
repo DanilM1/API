@@ -19,7 +19,7 @@ namespace API.Repositories
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.GivenName, User.FirstName));
+            claims.Add(new Claim(ClaimTypes.Name, User.Username));
 
             User.Roles.ForEach((role) =>
             {

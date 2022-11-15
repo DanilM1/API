@@ -6,8 +6,5 @@
         public string secretQuestion { get; set; }
         public string secretAnswer { get; set; }
         public string sEmail { get; set; }
-
-        public string vendor { get; set; }
-        public bool bMember { get; set; }
     }
 }

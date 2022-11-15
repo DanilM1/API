@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Models.Domain;
+using API.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -33,24 +34,133 @@ namespace API.Repositories
             return await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.License_id == License_id);
         }
 
-        public async Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses()
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses()
         {
-            return await APIDbContext.BusinessLicenses.ToListAsync();
+            var query = from BusinessLicenses in APIDbContext.BusinessLicenses
+                        join Users in APIDbContext.Users on BusinessLicenses.vendorUser_Id equals Users.User_id
+                        select new
+                        {
+                            Users.Username,
+                            BusinessLicenses.sLicenseNo,
+                            BusinessLicenses.applicationDate,
+                            BusinessLicenses.dCTT_Id_CancelEff,
+                            BusinessLicenses.sName_First_Soleproprietor,
+                            BusinessLicenses.sName_Last_Soleproprietor,
+                            BusinessLicenses.sBusiness_Address,
+                            BusinessLicenses.sBusiness_City,
+                            BusinessLicenses.sBusiness_State,
+                            BusinessLicenses.sPhoneNo_DayTime,
+                            BusinessLicenses.sEmail,
+                            BusinessLicenses.sBusiness_Zip,
+                            BusinessLicenses.sMailing_Zip
+                        };
+
+            var list = await query.ToListAsync().ConfigureAwait(false);
+
+            return list.Select(x => new DTO_BusinessLicense()
+            {
+                vendor = x.Username,
+                sLicenseNo = x.sLicenseNo,
+                applicationDate = (DateTime)x.applicationDate,
+                dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
+                sName_First_Soleproprietor = x.sName_First_Soleproprietor,
+                sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,
+                sBusiness_Address = x.sBusiness_Address,
+                sBusiness_City = x.sBusiness_City,
+                sBusiness_State = x.sBusiness_State,
+                sPhoneNo_DayTime = x.sPhoneNo_DayTime,
+                sEmail = x.sEmail,
+                sBusiness_Zip = x.sBusiness_Zip,
+                sMailing_Zip = x.sMailing_Zip
+            }).ToList();
         }
 
-        public async Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff)
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff)
         {
-            return await APIDbContext.BusinessLicenses.Where(x => x.applicationDate >= applicationDate && x.dCTT_Id_CancelEff <= dCTT_Id_CancelEff).ToListAsync();
+            var query = from BusinessLicenses in APIDbContext.BusinessLicenses
+                        join Users in APIDbContext.Users on BusinessLicenses.vendorUser_Id equals Users.User_id
+                        where BusinessLicenses.applicationDate >= applicationDate && BusinessLicenses.dCTT_Id_CancelEff <= dCTT_Id_CancelEff
+                        select new
+                        {
+                            Users.Username,
+                            BusinessLicenses.sLicenseNo,
+                            BusinessLicenses.applicationDate,
+                            BusinessLicenses.dCTT_Id_CancelEff,
+                            BusinessLicenses.sName_First_Soleproprietor,
+                            BusinessLicenses.sName_Last_Soleproprietor,
+                            BusinessLicenses.sBusiness_Address,
+                            BusinessLicenses.sBusiness_City,
+                            BusinessLicenses.sBusiness_State,
+                            BusinessLicenses.sPhoneNo_DayTime,
+                            BusinessLicenses.sEmail,
+                            BusinessLicenses.sBusiness_Zip,
+                            BusinessLicenses.sMailing_Zip
+                        };
+
+            var list = await query.ToListAsync().ConfigureAwait(false);
+
+            return list.Select(x => new DTO_BusinessLicense()
+            {
+                vendor = x.Username,
+                sLicenseNo = x.sLicenseNo,
+                applicationDate = (DateTime)x.applicationDate,
+                dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
+                sName_First_Soleproprietor = x.sName_First_Soleproprietor,
+                sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,
+                sBusiness_Address = x.sBusiness_Address,
+                sBusiness_City = x.sBusiness_City,
+                sBusiness_State = x.sBusiness_State,
+                sPhoneNo_DayTime = x.sPhoneNo_DayTime,
+                sEmail = x.sEmail,
+                sBusiness_Zip = x.sBusiness_Zip,
+                sMailing_Zip = x.sMailing_Zip
+            }).ToList();
         }
 
-        public async Task<IEnumerable<D_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode)
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode)
         {
-            return await APIDbContext.BusinessLicenses.Where(x =>
-                x.sGroupCode_1 == sGroupCode && x.sSICCode_1 == sSICCode ||
-                x.sGroupCode_2 == sGroupCode && x.sSICCode_2 == sSICCode ||
-                x.sGroupCode_3 == sGroupCode && x.sSICCode_3 == sSICCode ||
-                x.sGroupCode_4 == sGroupCode && x.sSICCode_4 == sSICCode
-            ).ToListAsync();
+            var query = from BusinessLicenses in APIDbContext.BusinessLicenses
+                        join Users in APIDbContext.Users on BusinessLicenses.vendorUser_Id equals Users.User_id
+                        where
+                            BusinessLicenses.sGroupCode_1 == sGroupCode && BusinessLicenses.sSICCode_1 == sSICCode ||
+                            BusinessLicenses.sGroupCode_2 == sGroupCode && BusinessLicenses.sSICCode_2 == sSICCode ||
+                            BusinessLicenses.sGroupCode_3 == sGroupCode && BusinessLicenses.sSICCode_3 == sSICCode ||
+                            BusinessLicenses.sGroupCode_4 == sGroupCode && BusinessLicenses.sSICCode_4 == sSICCode
+                        select new
+                        {
+                            Users.Username,
+                            BusinessLicenses.sLicenseNo,
+                            BusinessLicenses.applicationDate,
+                            BusinessLicenses.dCTT_Id_CancelEff,
+                            BusinessLicenses.sName_First_Soleproprietor,
+                            BusinessLicenses.sName_Last_Soleproprietor,
+                            BusinessLicenses.sBusiness_Address,
+                            BusinessLicenses.sBusiness_City,
+                            BusinessLicenses.sBusiness_State,
+                            BusinessLicenses.sPhoneNo_DayTime,
+                            BusinessLicenses.sEmail,
+                            BusinessLicenses.sBusiness_Zip,
+                            BusinessLicenses.sMailing_Zip
+                        };
+
+            var list = await query.ToListAsync().ConfigureAwait(false);
+
+            return list.Select(x => new DTO_BusinessLicense()
+            {
+                vendor = x.Username,
+                sLicenseNo = x.sLicenseNo,
+                applicationDate = (DateTime)x.applicationDate,
+                dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
+                sName_First_Soleproprietor = x.sName_First_Soleproprietor,
+                sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,
+                sBusiness_Address = x.sBusiness_Address,
+                sBusiness_City = x.sBusiness_City,
+                sBusiness_State = x.sBusiness_State,
+                sPhoneNo_DayTime = x.sPhoneNo_DayTime,
+                sEmail = x.sEmail,
+                sBusiness_Zip = x.sBusiness_Zip,
+                sMailing_Zip = x.sMailing_Zip
+            }).ToList();
         }
 
         public async Task<string> AddNewLicense(D_BusinessLicense License)
