@@ -61,7 +61,7 @@ namespace API.Repositories
             {
                 vendor = x.Username,
                 sLicenseNo = x.sLicenseNo,
-                applicationDate = (DateTime)x.applicationDate,
+                applicationDate = x.applicationDate,
                 dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
                 sName_First_Soleproprietor = x.sName_First_Soleproprietor,
                 sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,
@@ -103,7 +103,7 @@ namespace API.Repositories
             {
                 vendor = x.Username,
                 sLicenseNo = x.sLicenseNo,
-                applicationDate = (DateTime)x.applicationDate,
+                applicationDate = x.applicationDate,
                 dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
                 sName_First_Soleproprietor = x.sName_First_Soleproprietor,
                 sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,
@@ -149,7 +149,7 @@ namespace API.Repositories
             {
                 vendor = x.Username,
                 sLicenseNo = x.sLicenseNo,
-                applicationDate = (DateTime)x.applicationDate,
+                applicationDate = x.applicationDate,
                 dCTT_Id_CancelEff = x.dCTT_Id_CancelEff,
                 sName_First_Soleproprietor = x.sName_First_Soleproprietor,
                 sName_Last_Soleproprietor = x.sName_Last_Soleproprietor,

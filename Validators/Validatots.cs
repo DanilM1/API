@@ -17,6 +17,7 @@ namespace API.Validators
         public V_SignUp()
         {
             RuleFor(x => x.Username).NotEmpty().MinimumLength(3).MaximumLength(30);
+            RuleFor(x => x.Role).NotEmpty().MaximumLength(30);
             RuleFor(x => x.EmailAddress).NotEmpty().MaximumLength(254).EmailAddress();
             RuleFor(x => x.Password).Matches(reg.password);
             RuleFor(x => x.FirstName).NotEmpty().MinimumLength(3).MaximumLength(30);

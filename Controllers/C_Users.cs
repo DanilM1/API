@@ -4,6 +4,7 @@ using API.Models.DTO;
 using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Nancy.Json;
 
 namespace API.Controllers
 {
@@ -87,7 +88,9 @@ namespace API.Controllers
                 }
             }
 
-            return CreatedAtAction(nameof(SignIn), buf.FirstName);
+            var answer = "You have an account.";
+
+            return CreatedAtAction(nameof(SignIn), new JavaScriptSerializer().Serialize(answer));
         }
 
         #region Private methods

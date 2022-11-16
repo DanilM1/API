@@ -32,7 +32,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("~/C_BusinessLicenses/Filter_Dates")]
+        [Route("~/C_BusinessLicenses_Filter_Dates")]
         [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff)
         {
@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("~/C_BusinessLicenses/Filter_SICs")]
+        [Route("~/C_BusinessLicenses_Filter_SICs")]
         [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode)
         {
