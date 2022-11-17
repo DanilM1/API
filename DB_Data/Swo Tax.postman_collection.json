@@ -71,7 +71,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"Admin\",\r\n  \"password\": \"1234qwerS!\"\r\n}",
+					"raw": "{\r\n  \"username\": \"tyty\",\r\n  \"password\": \"123qwe@W\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,6 +88,49 @@
 					"path": [
 						"C_Users",
 						"SignIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MaxIdOfRoles_Filter_Username",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidHl0eSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJyZWFkZXIiLCJ2ZW5kb3IiLCJhZG1pbiJdLCJleHAiOjE2Njg2ODM3OTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEyMy8ifQ.U7xIzfpnCiUYL6YBs9R_2mYUMpCgebmDu-X_aFq2HY0",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_GetMaxIdOfRoles_Filter_Username?Username=tyty",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_GetMaxIdOfRoles_Filter_Username"
+					],
+					"query": [
+						{
+							"key": "Username",
+							"value": "tyty"
+						}
 					]
 				}
 			},
@@ -585,15 +628,14 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:7222/C_BusinessLicenses/Filter_SICs?sGroupCode=115&sSICCode=7620",
+					"raw": "https://localhost:7222/C_BusinessLicenses_Filter_SICs?sGroupCode=115&sSICCode=7620",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "7222",
 					"path": [
-						"C_BusinessLicenses",
-						"Filter_SICs"
+						"C_BusinessLicenses_Filter_SICs"
 					],
 					"query": [
 						{

@@ -5,6 +5,7 @@ using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Json;
+using System.Net.Http.Headers;
 
 namespace API.Controllers
 {
@@ -32,13 +33,16 @@ namespace API.Controllers
         [ActionName("SignIn")]
         public async Task<IActionResult> SignIn(DTO_SignIn signIn)
         {
-            var buf = await I_User.SignIn(signIn.Username, signIn.Password);
+            var User = await I_User.SignIn(signIn.Username, signIn.Password);
 
-            if (buf != null)
+            if (User != null)
             {
-                var token = await I_TokenHandler.CreateToken(buf);
-                return Ok(token);
-            }
+                var token = await I_TokenHandler.CreateToken(User);
+
+                HttpContext.Response.Headers.Add("Authorization", $"Bearer {token}");
+
+                return Ok();
+            };
 
             return BadRequest("Username or Password is incorrect.");
         }
@@ -96,9 +100,9 @@ namespace API.Controllers
         #region Private methods
         private async Task<bool> ValidateSignUp(DTO_SignUp SignUp)
         {
-            var user = await APIDbContext.Users.AnyAsync(x => x.Username == SignUp.Username || x.EmailAddress == SignUp.EmailAddress);
+            var User = await APIDbContext.Users.AnyAsync(x => x.Username == SignUp.Username || x.EmailAddress == SignUp.EmailAddress);
 
-            if (user) ModelState.AddModelError(nameof(SignUp.Username), $"{nameof(SignUp.Username)} or {nameof(SignUp.EmailAddress)} already exists.");
+            if (User) ModelState.AddModelError(nameof(SignUp.Username), $"{nameof(SignUp.Username)} or {nameof(SignUp.EmailAddress)} already exists.");
 
             var Role = await I_Role.GetRoleId_Filter_Role(SignUp.Role);
 

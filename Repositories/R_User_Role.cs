@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
 {
@@ -17,6 +18,11 @@ namespace API.Repositories
             await APIDbContext.Users_Roles.AddAsync(User_Role);
             await APIDbContext.SaveChangesAsync();
             return "Created user with his role(s).";
+        }
+
+        public async Task<int> GetMaxIdOfRoles_Filter_UserId(Guid UserId)
+        {
+            return await APIDbContext.Users_Roles.Where(x => x.UserId == UserId).Select(x => x.RoleId).MaxAsync();
         }
     }
 }
