@@ -50,9 +50,8 @@ namespace API.Repositories
                             BusinessLicenses.sBusiness_City,
                             BusinessLicenses.sBusiness_State,
                             BusinessLicenses.sPhoneNo_DayTime,
-                            BusinessLicenses.sEmail,
-                            BusinessLicenses.sBusiness_Zip,
-                            BusinessLicenses.sMailing_Zip
+                            BusinessLicenses.sMailing_Address,
+                            BusinessLicenses.sBusiness_Zip
                         };
 
             var list = await query.ToListAsync().ConfigureAwait(false);
@@ -69,9 +68,8 @@ namespace API.Repositories
                 sBusiness_City = x.sBusiness_City,
                 sBusiness_State = x.sBusiness_State,
                 sPhoneNo_DayTime = x.sPhoneNo_DayTime,
-                sEmail = x.sEmail,
-                sBusiness_Zip = x.sBusiness_Zip,
-                sMailing_Zip = x.sMailing_Zip
+                sMailing_Address = x.sMailing_Address,
+                sBusiness_Zip = x.sBusiness_Zip
             }).ToList();
         }
 
@@ -92,9 +90,8 @@ namespace API.Repositories
                             BusinessLicenses.sBusiness_City,
                             BusinessLicenses.sBusiness_State,
                             BusinessLicenses.sPhoneNo_DayTime,
-                            BusinessLicenses.sEmail,
-                            BusinessLicenses.sBusiness_Zip,
-                            BusinessLicenses.sMailing_Zip
+                            BusinessLicenses.sMailing_Address,
+                            BusinessLicenses.sBusiness_Zip
                         };
 
             var list = await query.ToListAsync().ConfigureAwait(false);
@@ -111,9 +108,8 @@ namespace API.Repositories
                 sBusiness_City = x.sBusiness_City,
                 sBusiness_State = x.sBusiness_State,
                 sPhoneNo_DayTime = x.sPhoneNo_DayTime,
-                sEmail = x.sEmail,
-                sBusiness_Zip = x.sBusiness_Zip,
-                sMailing_Zip = x.sMailing_Zip
+                sMailing_Address = x.sMailing_Address,
+                sBusiness_Zip = x.sBusiness_Zip
             }).ToList();
         }
 
@@ -138,9 +134,8 @@ namespace API.Repositories
                             BusinessLicenses.sBusiness_City,
                             BusinessLicenses.sBusiness_State,
                             BusinessLicenses.sPhoneNo_DayTime,
-                            BusinessLicenses.sEmail,
-                            BusinessLicenses.sBusiness_Zip,
-                            BusinessLicenses.sMailing_Zip
+                            BusinessLicenses.sMailing_Address,
+                            BusinessLicenses.sBusiness_Zip
                         };
 
             var list = await query.ToListAsync().ConfigureAwait(false);
@@ -157,9 +152,8 @@ namespace API.Repositories
                 sBusiness_City = x.sBusiness_City,
                 sBusiness_State = x.sBusiness_State,
                 sPhoneNo_DayTime = x.sPhoneNo_DayTime,
-                sEmail = x.sEmail,
-                sBusiness_Zip = x.sBusiness_Zip,
-                sMailing_Zip = x.sMailing_Zip
+                sMailing_Address = x.sMailing_Address,
+                sBusiness_Zip = x.sBusiness_Zip
             }).ToList();
         }
 

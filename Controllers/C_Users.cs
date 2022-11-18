@@ -5,7 +5,6 @@ using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Json;
-using System.Net.Http.Headers;
 
 namespace API.Controllers
 {
@@ -38,10 +37,7 @@ namespace API.Controllers
             if (User != null)
             {
                 var token = await I_TokenHandler.CreateToken(User);
-
-                HttpContext.Response.Headers.Add("Authorization", $"Bearer {token}");
-
-                return Ok();
+                return Ok(new JavaScriptSerializer().Serialize($"Bearer {token}"));
             };
 
             return BadRequest("Username or Password is incorrect.");

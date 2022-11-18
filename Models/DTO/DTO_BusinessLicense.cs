@@ -14,8 +14,7 @@ namespace API.Models.DTO
         public string sBusiness_City { get; set; }
         public string sBusiness_State { get; set; }
         public string sPhoneNo_DayTime { get; set; }
-        public string sEmail { get; set; }
+        public string sMailing_Address { get; set; }
         public string sBusiness_Zip { get; set; }
-        public string sMailing_Zip { get; set; }
     }
 }

@@ -36,7 +36,8 @@ namespace API.Controllers
         [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff)
         {
-            return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_Dates(applicationDate, dCTT_Id_CancelEff));
+            if (applicationDate.GetType() == typeof(DateTime) && dCTT_Id_CancelEff.GetType() == typeof(DateTime) && applicationDate < dCTT_Id_CancelEff) return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_Dates(applicationDate, dCTT_Id_CancelEff));
+            return Ok("The date/time format is not valid.");
         }
 
         [HttpGet]
@@ -44,7 +45,9 @@ namespace API.Controllers
         [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode)
         {
-            return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_SICs(sGroupCode, sSICCode));
+            if (!String.IsNullOrEmpty(sGroupCode) && sSICCode > 0) return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_SICs(sGroupCode, sSICCode));
+            
+            return Ok("Data are not correct.");
         }
 
         [HttpPost]
