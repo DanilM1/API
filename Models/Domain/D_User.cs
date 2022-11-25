@@ -6,28 +6,31 @@ namespace API.Models.Domain
     public class D_User
     {
         [Key]
-        public Guid User_id { get; set; }
+        public Guid id { get; set; }
 
         [Required]
-        [MaxLength(30)]
-        public string Username { get; set; }
+        [MaxLength(50)]
+        public string name { get; set; }
 
         [Required]
         [MaxLength(254)]
-        public string EmailAddress { get; set; }
+        public string email { get; set; }
 
         [Required]
         [MaxLength(24)]
-        public string Password { get; set; }
+        public string password { get; set; }
 
         [Required]
-        [MaxLength(30)]
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [MaxLength(50)]
+        public string firstName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string lastName { get; set; }
 
         [NotMapped]
-        public List<string> Roles { get; set; }
+        public List<string> roles { get; set; }
 
-        public List<D_User_Role> Users_Roles { get; set; }
+        public List<D_User_Role> users_roles { get; set; }
     }
 }

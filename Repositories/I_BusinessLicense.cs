@@ -7,17 +7,17 @@ namespace API.Repositories
     {
         Task<int> GetCountOfAllLicenses();
         Task<int> GetCountOfAllLicensesWithOnlyMembers();
-        Task<int?> GetMaxIdOfLicense_Filter_Vendor(Guid vendorUser_Id);
-        Task<D_BusinessLicense> GetLicense_Filter_LisenseId(int? License_id);
-        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses();
-        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff);
-        Task<IEnumerable<DTO_BusinessLicense>> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode);
+        Task<int> GetLastLicenseIdForUser(Guid userId);
+        Task<D_BusinessLicense> GetLicense(int licenseId);
+        Task<IEnumerable<DTO_BusinessLicense>> GetAllLicenses();
+        Task<IEnumerable<DTO_BusinessLicense>> GetLicensesFilterDates(DateTime startEffectiveDate, DateTime cancelEffectiveDate);
+        Task<IEnumerable<DTO_BusinessLicense>> GetLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId);
 
-        Task<string> AddNewLicense(D_BusinessLicense License);
+        Task<string> AddNewLicense(D_BusinessLicense license);
 
-        Task<string> UpdateLicenseByIdStep2(int? License_id, D_BusinessLicense License);
-        Task<string> UpdateLicenseByIdStep3(int? License_id, D_BusinessLicense License);
-        Task<string> UpdateLicenseByIdStep4(int? License_id, D_BusinessLicense License);
-        Task<string> UpdateLicenseByIdStep5(int? License_id, D_BusinessLicense License);
+        Task<string> UpdateLicenseStep2(int licenseId, D_BusinessLicense license);
+        Task<string> UpdateLicenseStep3(int licenseId, D_BusinessLicense license);
+        Task<string> UpdateLicenseStep4(int licenseId, D_BusinessLicense license);
+        Task<string> UpdateLicenseStep5(int licenseId, D_BusinessLicense license);
     }
 }

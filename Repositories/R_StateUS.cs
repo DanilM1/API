@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
 {
-    public class R_State : I_State
+    public class R_StateUS : I_StateUS
     {
         private readonly APIDbContext APIDbContext;
 
-        public R_State(APIDbContext APIDbContext)
+        public R_StateUS(APIDbContext APIDbContext)
         {
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_State>> GetListOfAllStates()
+        public async Task<IEnumerable<D_StateUS>> GetAllStatesUS()
         {
-            return await APIDbContext.States.ToListAsync();
+            return await APIDbContext.StatesUS.ToListAsync();
         }
     }
 }

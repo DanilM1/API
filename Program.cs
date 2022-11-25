@@ -44,15 +44,16 @@ builder.Services.AddDbContext<APIDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("API"));
 });
 
-builder.Services.AddScoped<I_State, R_State>();
-builder.Services.AddScoped<I_City, R_City>();
-builder.Services.AddScoped<I_BusinessLicense, R_BusinessLicense>();
-builder.Services.AddScoped<I_SICHeader, R_SICHeader>();
-builder.Services.AddScoped<I_SIC, R_SIC>();
 builder.Services.AddScoped<I_TokenHandler, R_TokenHandler>();
 builder.Services.AddScoped<I_User, R_User>();
 builder.Services.AddScoped<I_Role, R_Role>();
 builder.Services.AddScoped<I_User_Role, R_User_Role>();
+builder.Services.AddScoped<I_StateUS, R_StateUS>();
+builder.Services.AddScoped<I_City, R_City>();
+builder.Services.AddScoped<I_ZipCode, R_ZipCode>();
+builder.Services.AddScoped<I_GroupOfSICCodes, R_GroupOfSICCodes>();
+builder.Services.AddScoped<I_SICCode, R_SICCode>();
+builder.Services.AddScoped<I_BusinessLicense, R_BusinessLicense>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

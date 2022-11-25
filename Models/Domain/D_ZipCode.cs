@@ -2,15 +2,15 @@
 
 namespace API.Models.Domain
 {
-    public class D_Role
+    public class D_ZipCode
     {
         [Key]
         public int id { get; set; }
 
         [Required]
-        [MaxLength(30)]
+        [MaxLength(6)]
         public string name { get; set; }
 
-        public List<D_User_Role> users_roles { get; set; }
+        public D_City city { get; set; }
     }
 }

@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
 {
-    public class R_City : I_City
+    public class R_ZipCode : I_ZipCode
     {
         private readonly APIDbContext APIDbContext;
 
-        public R_City(APIDbContext APIDbContext)
+        public R_ZipCode(APIDbContext APIDbContext)
         {
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<IEnumerable<D_City>> GetCities(int stateId)
+        public async Task<IEnumerable<D_ZipCode>> GetZipCodes(int cityId)
         {
-            return await APIDbContext.Cities.Where(x => x.state.id == stateId).Distinct().ToListAsync();
+            return await APIDbContext.ZipCodes.Where(x => x.city.id == cityId).ToListAsync();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace API.Repositories
 {
     public interface I_Role
     {
-        Task<List<string>> GetListOfAllRoles();
-        Task<D_Role> GetRoleId_Filter_Role(string Role);
+        Task<IEnumerable<D_Role>> GetAllRoles();
+        Task<string> GetRole(int roleId);
     }
 }

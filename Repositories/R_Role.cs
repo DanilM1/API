@@ -13,15 +13,14 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<List<string>> GetListOfAllRoles()
+        public async Task<IEnumerable<D_Role>> GetAllRoles()
         {
-            List<string> list = await APIDbContext.Roles.OrderBy(x => x.Role_id).Select(x => x.Role).ToListAsync();
-            return list;
+            return await APIDbContext.Roles.OrderBy(x => x.id).ToListAsync();
         }
 
-        public async Task<D_Role> GetRoleId_Filter_Role(string Role)
+        public async Task<string> GetRole(int roleId)
         {
-            return await APIDbContext.Roles.FirstOrDefaultAsync(x => x.Role == Role);
+            return await APIDbContext.Roles.Where(x => x.id == roleId).Select(x => x.name).FirstAsync();
         }
     }
 }

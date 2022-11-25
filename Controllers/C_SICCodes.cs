@@ -8,22 +8,22 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class C_Cities : Controller
+    public class C_SICCodes : Controller
     {
-        private readonly I_City I_City;
+        private readonly I_SICCode I_SICCode;
         private readonly IMapper I_Mapper;
 
-        public C_Cities(I_City I_City, IMapper I_Mapper)
+        public C_SICCodes(I_SICCode I_SICCode, IMapper I_Mapper)
         {
-            this.I_City = I_City;
+            this.I_SICCode = I_SICCode;
             this.I_Mapper = I_Mapper;
         }
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetCities(int stateId)
+        public async Task<IActionResult> GetSICCodes(int groupOfSICCodesId)
         {
-            return Ok(I_Mapper.Map<List<DTO_City>>(await I_City.GetCities(stateId)));
+            return Ok(I_Mapper.Map<List<DTO_SICCode>>(await I_SICCode.GetSICCodes(groupOfSICCodesId)));
         }
     }
 }

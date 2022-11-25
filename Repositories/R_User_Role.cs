@@ -20,9 +20,9 @@ namespace API.Repositories
             return "Created user with his role(s).";
         }
 
-        public async Task<int> GetMaxIdOfRoles_Filter_UserId(Guid UserId)
+        public async Task<int> GetMaxRole(Guid userId)
         {
-            return await APIDbContext.Users_Roles.Where(x => x.UserId == UserId).Select(x => x.RoleId).MaxAsync();
+            return await APIDbContext.Users_Roles.Where(x => x.user_id == userId).Select(x => x.role_id).MaxAsync();
         }
     }
 }

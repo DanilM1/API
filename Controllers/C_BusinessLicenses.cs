@@ -26,60 +26,62 @@ namespace API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetListOfAllLicenses()
+        public async Task<IActionResult> GetAllLicenses()
         {
-            return Ok(await I_BusinessLicense.GetListOfAllLicenses());
+            return Ok(await I_BusinessLicense.GetAllLicenses());
         }
 
         [HttpGet]
-        [Route("~/C_BusinessLicenses_Filter_Dates")]
+        [Route("~/C_BusinessLicensesFilterDates")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetListOfAllLicenses_Filter_Dates(DateTime applicationDate, DateTime dCTT_Id_CancelEff)
+        public async Task<IActionResult> GetBusinessLicensesFilterDates([FromBody] DTO_BusinessLicenseFilterFilterDates args)
         {
-            if (applicationDate.GetType() == typeof(DateTime) && dCTT_Id_CancelEff.GetType() == typeof(DateTime) && applicationDate < dCTT_Id_CancelEff) return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_Dates(applicationDate, dCTT_Id_CancelEff));
-            return Ok("The date/time format is not valid.");
+            if (!ValidateGetBusinessLicensesFilterDates(args)) return BadRequest(ModelState);
+
+            return Ok(await I_BusinessLicense.GetLicensesFilterDates((DateTime)args.startEffectiveDate, (DateTime)args.cancelEffectiveDate));
         }
 
         [HttpGet]
-        [Route("~/C_BusinessLicenses_Filter_SICs")]
+        [Route("~/C_BusinessLicensesFilterSICCode")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetListOfAllLicenses_Filter_SICs(string sGroupCode, int sSICCode)
+        public async Task<IActionResult> GetBusinessLicensesFilterSICCode([FromBody] DTO_BusinessLicenseFilterSICCode args)
         {
-            if (!String.IsNullOrEmpty(sGroupCode) && sSICCode > 0) return Ok(await I_BusinessLicense.GetListOfAllLicenses_Filter_SICs(sGroupCode, sSICCode));
-            
+            if (!await ValidateGetBusinessLicensesFilterSICCode(args)) return BadRequest(ModelState);
+            if (args.groupOfSICCodesId != null && args.SICCodeId != null) return Ok(await I_BusinessLicense.GetLicensesFilterSICCode((int)args.groupOfSICCodesId, (int)args.SICCodeId));
+
             return Ok("Data are not correct.");
         }
 
         [HttpPost]
         [Route("~/C_BusinessLicense/RegistrationStep1")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> AddNewLicense(DTO_BusinessLicenseRegistrationStep1 args)
+        public async Task<IActionResult> AddNewLicense(DTO_BusinessLicenseRegStep1 args)
         {
             if (!await ValidateAddNewLicense(args)) return BadRequest(ModelState);
 
-            var vendor = await I_User.GetUserId_Filter_Username(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
             var buf = new D_BusinessLicense()
             {
-                vendorUser_Id = vendor.User_id,
-                sBusinessname_Legal = args.sBusinessname_Legal,
-                sName_First_Soleproprietor = args.sName_First_Soleproprietor,
-                sName_Mi_Soleproprietor = args.sName_Mi_Soleproprietor,
-                sName_Last_Soleproprietor = args.sName_Last_Soleproprietor,
-                sBusinessName_trade = args.sBusinessName_trade,
-                sFIDSSN = args.sFIDSSN,
-                sBusiness_Address = args.sBusiness_Address,
-                sBusiness_City = args.sBusiness_City,
-                sBusiness_State = args.sBusiness_State,
-                sBusiness_Zip = args.sBusiness_Zip,
-                sMailing_Address = args.sMailing_Address,
-                sMailing_City = args.sMailing_City,
-                sMailing_State = args.sMailing_State,
-                sMailing_Zip = args.sMailing_Zip,
-                sPhoneNo_DayTime = args.sPhoneNo_DayTime,
-                sPhoneNo_Other = args.sPhoneNo_Other,
-                sFaxNo = args.sFaxNo,
-                applicationDate = DateTime.Now
+                userId = user.id,
+                businessName = args.businessName,
+                firstName = args.firstName,
+                middleInitial = args.middleInitial,
+                lastName = args.lastName,
+                businessTradeName = args.businessTradeName,
+                ID_SSN = args.ID_SSN,
+                businessAddress = args.businessAddress,
+                businessCityId = args.businessCityId,
+                businessStateId = args.businessStateId,
+                businessZipCodeId = args.businessZipCodeId,
+                mailingAddress = args.mailingAddress,
+                mailingCityId = args.mailingCityId,
+                mailingStateId = args.mailingStateId,
+                mailingZipCodeId = args.mailingZipCodeId,
+                dayTimePhone = args.dayTimePhone,
+                otherPhone = args.otherPhone,
+                fax = args.fax,
+                startEffectiveDate = DateTime.Now
             };
 
             return Ok(await I_BusinessLicense.AddNewLicense(buf));
@@ -88,45 +90,54 @@ namespace API.Controllers
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep2")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> UpdateLicenseByIdStep2([FromBody] DTO_BusinessLicenseRegistrationStep2 args)
+        public async Task<IActionResult> UpdateLicenseStep2([FromBody] DTO_BusinessLicenseRegStep2 args)
         {
-            if (!await ValidateUpdateLicenseByIdStep2(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateLicenseStep2(args)) return BadRequest(ModelState);
 
-            var vendor = await I_User.GetUserId_Filter_Username(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
-            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
-                sOPO1_Name = args.sOPO1_Name,
-                sOPO1_Title = args.sOPO1_Title,
-                sOPO1_BusinessPhone = args.sOPO1_BusinessPhone,
-                sOPO1_HomePhone = args.sOPO1_HomePhone,
-                sOPO1_HomeAddress = args.sOPO1_HomeAddress,
-                sOPO1_City = args.sOPO1_City,
-                sOPO1_State = args.sOPO1_State,
-                sOPO1_Zip = args.sOPO1_Zip,
+                name1 = args.name1,
+                title1 = args.title1,
+                businessPhone1 = args.businessPhone1,
+                homePhone1 = args.homePhone1,
+                homeAddress1 = args.homeAddress1,
+                city1Id = args.city1Id,
+                state1Id = args.state1Id,
+                zipCode1Id = args.zipCode1Id,
 
-                sOPO2_Name = args.sOPO2_Name,
-                sOPO2_Title = args.sOPO2_Title,
-                sOPO2_BusinessPhone = args.sOPO2_BusinessPhone,
-                sOPO2_HomePhone = args.sOPO2_HomePhone,
-                sOPO2_HomeAddress = args.sOPO2_HomeAddress,
-                sOPO2_City = args.sOPO2_City,
-                sOPO2_State = args.sOPO2_State,
-                sOPO2_Zip = args.sOPO2_Zip,
+                name2 = args.name2,
+                title2 = args.title2,
+                businessPhone2 = args.businessPhone2,
+                homePhone2 = args.homePhone2,
+                homeAddress2 = args.homeAddress2,
+                city2Id = args.city2Id,
+                state2Id = args.state2Id,
+                zipCode2Id = args.zipCode2Id,
 
-                sOPO3_Name = args.sOPO3_Name,
-                sOPO3_Title = args.sOPO3_Title,
-                sOPO3_BusinessPhone = args.sOPO3_BusinessPhone,
-                sOPO3_HomePhone = args.sOPO3_HomePhone,
-                sOPO3_HomeAddress = args.sOPO3_HomeAddress,
-                sOPO3_City = args.sOPO3_City,
-                sOPO3_State = args.sOPO3_State,
-                sOPO3_Zip = args.sOPO3_Zip
+                name3 = args.name3,
+                title3 = args.title3,
+                businessPhone3 = args.businessPhone3,
+                homePhone3 = args.homePhone3,
+                homeAddress3 = args.homeAddress3,
+                city3Id = args.city3Id,
+                state3Id = args.state3Id,
+                zipCode3Id = args.zipCode3Id,
+
+                name4 = args.name4,
+                title4 = args.title4,
+                businessPhone4 = args.businessPhone4,
+                homePhone4 = args.homePhone4,
+                homeAddress4 = args.homeAddress4,
+                city4Id = args.city4Id,
+                state4Id = args.state4Id,
+                zipCode4Id = args.zipCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep2(License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseStep2(licenseId, buf);
 
             if (answer == null) return NotFound();
 
@@ -136,33 +147,31 @@ namespace API.Controllers
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep3")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> UpdateLicenseByIdStep3([FromBody] DTO_BusinessLicenseRegistrationStep3 args)
+        public async Task<IActionResult> UpdateLicenseStep3([FromBody] DTO_BusinessLicenseRegStep3 args)
         {
-            if (!await ValidateUpdateLicenseByIdStep3(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateLicenseStep3(args)) return BadRequest(ModelState);
 
-            var vendor = await I_User.GetUserId_Filter_Username(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
-            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
-                iType_LegalOrg = args.iType_LegalOrg,
-                bMember = args.bMember,
-                iOwned_SWST_Percent = args.iOwned_SWST_Percent,
-                iOwned_AmeriIndian_percent = args.iOwned_AmeriIndian_percent,
-                sGroupCode_1 = args.sGroupCode_1,
-                sSICCode_1 = args.sSICCode_1,
-                sGroupCode_2 = args.sGroupCode_2,
-                sSICCode_2 = args.sSICCode_2,
-                sGroupCode_3 = args.sGroupCode_3,
-                sSICCode_3 = args.sSICCode_3,
-                sGroupCode_4 = args.sGroupCode_4,
-                sSICCode_4 = args.sSICCode_4,
-                ibusiness_located = args.ibusiness_located,
-                directions_nearest_town = args.directions_nearest_town
+                typeOfLegalOrganization = args.typeOfLegalOrganization,
+                member = args.member,
+                percentageIsOwnedBySissetonWahpetonOyateMember = args.percentageIsOwnedBySissetonWahpetonOyateMember,
+                percentageIsOwnedByAmericanIndians = args.percentageIsOwnedByAmericanIndians,
+                groupOfSICCodes1Id = args.groupOfSICCodes1Id,
+                SICCode1Id = args.SICCode1Id,
+                groupOfSICCodes2Id = args.groupOfSICCodes2Id,
+                SICCode2Id = args.SICCode2Id,
+                groupOfSICCodes3Id = args.groupOfSICCodes3Id,
+                SICCode3Id = args.SICCode3Id,
+                groupOfSICCodes4Id = args.groupOfSICCodes4Id,
+                SICCode4Id = args.SICCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep3(License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseStep3(licenseId, buf);
 
             if (answer == null) return NotFound();
 
@@ -172,31 +181,27 @@ namespace API.Controllers
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep4")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> UpdateLicenseByIdStep4([FromBody] DTO_BusinessLicenseRegistrationStep4 args)
+        public async Task<IActionResult> UpdateLicenseStep4([FromBody] DTO_BusinessLicenseRegStep4 args)
         {
-            if (!await ValidateUpdateLicenseByIdStep4(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateLicenseStep4(args)) return BadRequest(ModelState);
 
-            var vendor = await I_User.GetUserId_Filter_Username(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
-            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
-                iReason_License = args.iReason_License,
-                prior_owner_Name = args.prior_owner_Name,
-                prior_owner_Title = args.prior_owner_Title,
-                prior_owner_BusinessPhone = args.prior_owner_BusinessPhone,
-                prior_owner_HomePhone = args.prior_owner_HomePhone,
-                prior_owner_HomeAddress = args.prior_owner_HomeAddress,
-                prior_owner_City = args.prior_owner_City,
-                prior_owner_State = args.prior_owner_State,
-                prior_owner_Zip = args.prior_owner_Zip,
-                sCTT_Id_Current = args.sCTT_Id_Current,
-                bCTT_Id_Cancel = args.bCTT_Id_Cancel,
-                dCTT_Id_CancelEff = args.dCTT_Id_CancelEff
+                licenseReason = args.licenseReason,
+                priorOwnerAddress = args.priorOwnerAddress,
+                priorOwnerCityId = args.priorOwnerCityId,
+                priorOwnerStateId = args.priorOwnerStateId,
+                priorOwnerZipCodeId = args.priorOwnerZipCodeId,
+                currentTribalTaxIDnumber = args.currentTribalTaxIDnumber,
+                shouldAnyNumberBeCancelled = args.shouldAnyNumberBeCancelled,
+                cancelEffectiveDate = args.cancelEffectiveDate
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep4(License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseStep4(licenseId, buf);
 
             if (answer == null) return NotFound();
 
@@ -206,29 +211,27 @@ namespace API.Controllers
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep5")]
         [Authorize(Roles = "vendor")]
-        public async Task<IActionResult> UpdateLicenseByIdStep5([FromBody] DTO_BusinessLicenseRegistrationStep5 args)
+        public async Task<IActionResult> UpdateLicenseStep5([FromBody] DTO_BusinessLicenseRegStep5 args)
         {
-            if (!await ValidateUpdateLicenseByIdStep5(args)) return BadRequest(ModelState);
-
             var CountOfAllLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllLicensesWithOnlyMembers();
             var CountOfAllLicenses = await I_BusinessLicense.GetCountOfAllLicenses();
 
-            var vendor = await I_User.GetUserId_Filter_Username(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
-            var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendor.User_id);
+            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
-            var License = await I_BusinessLicense.GetLicense_Filter_LisenseId(License_id);
+            var license = await I_BusinessLicense.GetLicense(licenseId);
 
             var buf = new D_BusinessLicense()
             {
-                sLicenseNo = License.bMember == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
-                sPwd = args.sPwd,
+                name = license.member == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
+                password = args.password,
                 secretQuestion = args.secretQuestion,
                 secretAnswer = args.secretAnswer,
-                sEmail = args.sEmail
+                email = args.email
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseByIdStep5(License_id, buf);
+            string answer = await I_BusinessLicense.UpdateLicenseStep5(licenseId, buf);
 
             if (answer == null) return NotFound();
 
@@ -236,159 +239,169 @@ namespace API.Controllers
         }
 
         #region Private methods
-        private async Task<bool> ValidateAddNewLicense(DTO_BusinessLicenseRegistrationStep1 args)
+        public async Task<string> Check_City_State_ZipCode(int cityId, int stateId, int zipCodeId)
         {
-            if (!String.IsNullOrEmpty(args.sBusiness_City) && !String.IsNullOrEmpty(args.sBusiness_State) && !String.IsNullOrEmpty(args.sBusiness_Zip))
-            {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sBusiness_City && x.D_State.State_id == args.sBusiness_State && x.ZIP == args.sBusiness_Zip);
+            var buf1 = await APIDbContext.Cities.FirstOrDefaultAsync(x => x.id == cityId && x.state.id == stateId);
 
-                if (!buf) ModelState.AddModelError(nameof(args.sBusiness_City), $"{nameof(args.sBusiness_City)} or {nameof(args.sBusiness_State)} or {nameof(args.sBusiness_Zip)} is invalid.");
-            }
-            else ModelState.AddModelError(nameof(args.sBusiness_City), $"{nameof(args.sBusiness_City)} or {nameof(args.sBusiness_State)} or {nameof(args.sBusiness_Zip)} is invalid.");
+            if (buf1 == null) return "City or State is invalid.";
 
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sMailing_City) && !String.IsNullOrEmpty(args.sMailing_State) && !String.IsNullOrEmpty(args.sMailing_Zip))
-            {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sMailing_City && x.D_State.State_id == args.sMailing_State && x.ZIP == args.sMailing_Zip);
+            var buf2 = await APIDbContext.ZipCodes.AnyAsync(x => x.city.id == buf1.id && x.id == zipCodeId);
 
-                if (!buf) ModelState.AddModelError(nameof(args.sMailing_City), $"{nameof(args.sMailing_City)} or {nameof(args.sMailing_State)} or {nameof(args.sMailing_Zip)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sMailing_City) || !String.IsNullOrEmpty(args.sMailing_State) || !String.IsNullOrEmpty(args.sMailing_Zip)) ModelState.AddModelError(nameof(args.sMailing_City), $"{nameof(args.sMailing_City)} or {nameof(args.sMailing_State)} or {nameof(args.sMailing_Zip)} is invalid.");
+            if (!buf2) return "Zip code is invalid.";
+
+            return "";
+        }
+
+        public async Task<string> Check_GroupOfSICCodes_SICCodeId(int groupOfSICCodesId, int SICCodeId)
+        {
+            var buf = await APIDbContext.SICCodes.AnyAsync(x => x.groupOfSICCodes.id == groupOfSICCodesId && x.id == SICCodeId);
+
+            if (!buf) return "Group Of SIC Code or SIC Code is invalid.";
+
+            return "";
+        }
+
+        private bool ValidateGetBusinessLicensesFilterDates(DTO_BusinessLicenseFilterFilterDates args)
+        {
+            if (args.startEffectiveDate == null && args.cancelEffectiveDate != null || args.startEffectiveDate != null && args.cancelEffectiveDate == null || args.startEffectiveDate != null && args.cancelEffectiveDate != null && args.startEffectiveDate >= args.cancelEffectiveDate)
+
+                ModelState.AddModelError(nameof(args), $"{nameof(args.startEffectiveDate)} or {nameof(args.cancelEffectiveDate)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep2(DTO_BusinessLicenseRegistrationStep2 args)
+        private async Task<bool> ValidateGetBusinessLicensesFilterSICCode(DTO_BusinessLicenseFilterSICCode args)
         {
-            var vendor = User.FindFirst(ClaimTypes.Name)?.Value;
-
-            var vendorData = await I_User.GetUserId_Filter_Username(vendor);
-
-            if (vendorData == null) ModelState.AddModelError(nameof(vendor), $"{nameof(vendor)} is invalid.");
-            else
+            if (args.groupOfSICCodesId == null || args.SICCodeId == null) ModelState.AddModelError(nameof(args), $"{nameof(args.groupOfSICCodesId)} or {nameof(args.SICCodeId)} is invalid.");
+            else if (ModelState.ErrorCount == 0)
             {
-                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendorData.User_id);
-
-                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+                var buf = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodesId, (int)args.SICCodeId);
+                if (buf != "") ModelState.AddModelError(nameof(args), buf);
             }
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO1_City) && !String.IsNullOrEmpty(args.sOPO1_State) && !String.IsNullOrEmpty(args.sOPO1_Zip))
-            {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO1_City && x.D_State.State_id == args.sOPO1_State && x.ZIP == args.sOPO1_Zip);
-
-                if (!buf) ModelState.AddModelError(nameof(args.sOPO1_City), $"{nameof(args.sOPO1_City)} or {nameof(args.sOPO1_State)} or {nameof(args.sOPO1_Zip)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO1_City) || !String.IsNullOrEmpty(args.sOPO1_State) || !String.IsNullOrEmpty(args.sOPO1_Zip)) ModelState.AddModelError(nameof(args.sOPO1_City), $"{nameof(args.sOPO1_City)} or {nameof(args.sOPO1_State)} or {nameof(args.sOPO1_Zip)} is invalid.");
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO2_City) && !String.IsNullOrEmpty(args.sOPO2_State) && !String.IsNullOrEmpty(args.sOPO2_Zip))
-            {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO2_City && x.D_State.State_id == args.sOPO2_State && x.ZIP == args.sOPO2_Zip);
-
-                if (!buf) ModelState.AddModelError(nameof(args.sOPO2_City), $"{nameof(args.sOPO2_City)} or {nameof(args.sOPO2_State)} or {nameof(args.sOPO2_Zip)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO2_City) || !String.IsNullOrEmpty(args.sOPO2_State) || !String.IsNullOrEmpty(args.sOPO2_Zip)) ModelState.AddModelError(nameof(args.sOPO2_City), $"{nameof(args.sOPO2_City)} or {nameof(args.sOPO2_State)} or {nameof(args.sOPO2_Zip)} is invalid.");
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO3_City) && !String.IsNullOrEmpty(args.sOPO3_State) && !String.IsNullOrEmpty(args.sOPO3_Zip))
-            {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.sOPO3_City && x.D_State.State_id == args.sOPO3_State && x.ZIP == args.sOPO3_Zip);
-
-                if (!buf) ModelState.AddModelError(nameof(args.sOPO3_City), $"{nameof(args.sOPO3_City)} or {nameof(args.sOPO3_State)} or {nameof(args.sOPO3_Zip)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sOPO3_City) || !String.IsNullOrEmpty(args.sOPO3_State) || !String.IsNullOrEmpty(args.sOPO3_Zip)) ModelState.AddModelError(nameof(args.sOPO3_City), $"{nameof(args.sOPO3_City)} or {nameof(args.sOPO3_State)} or {nameof(args.sOPO3_Zip)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep3(DTO_BusinessLicenseRegistrationStep3 args)
+        private async Task<bool> ValidateAddNewLicense(DTO_BusinessLicenseRegStep1 args)
         {
-            var vendor = User.FindFirst(ClaimTypes.Name)?.Value;
+            var buf1 = await Check_City_State_ZipCode(args.businessCityId, args.businessStateId, args.businessZipCodeId);
+            if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
 
-            var vendorData = await I_User.GetUserId_Filter_Username(vendor);
-
-            if (vendorData == null) ModelState.AddModelError(nameof(vendor), $"{nameof(vendor)} is invalid.");
-            else
+            if (ModelState.ErrorCount == 0)
             {
-                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendorData.User_id);
-
-                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+                if (args.mailingStateId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
+                {
+                    var buf2 = await Check_City_State_ZipCode((int)args.mailingZipCodeId, (int)args.mailingStateId, (int)args.mailingZipCodeId);
+                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
+                }
+                else if (args.mailingStateId != null || args.mailingStateId != null || args.mailingZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
             }
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_1) && args.sSICCode_1 != null)
-            {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_1 && x.sSICCode == args.sSICCode_1);
-                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_1)} or {nameof(args.sSICCode_1)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_1) || args.sSICCode_1 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_1)} or {nameof(args.sSICCode_1)} is invalid.");
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_2) && args.sSICCode_2 != null)
-            {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_2 && x.sSICCode == args.sSICCode_2);
-                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_2)} or {nameof(args.sSICCode_2)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_2) || args.sSICCode_2 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_2)} or {nameof(args.sSICCode_2)} is invalid.");
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_3) && args.sSICCode_3 != null)
-            {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_3 && x.sSICCode == args.sSICCode_3);
-                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_3)} or {nameof(args.sSICCode_3)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_3) || args.sSICCode_3 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_3)} or {nameof(args.sSICCode_3)} is invalid.");
-
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_4) && args.sSICCode_4 != null)
-            {
-                var buf = await APIDbContext.SICs.AnyAsync(x => x.D_SICHeader.sGroupCode == args.sGroupCode_4 && x.sSICCode == args.sSICCode_4);
-                if (!buf) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_4)} or {nameof(args.sSICCode_4)} is invalid.");
-            }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.sGroupCode_4) || args.sSICCode_4 != null) ModelState.AddModelError(nameof(args), $"{nameof(args.sGroupCode_4)} or {nameof(args.sSICCode_4)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep4(DTO_BusinessLicenseRegistrationStep4 args)
+        private async Task<bool> ValidateUpdateLicenseStep2(DTO_BusinessLicenseRegStep2 args)
         {
-            var vendor = User.FindFirst(ClaimTypes.Name)?.Value;
-
-            var vendorData = await I_User.GetUserId_Filter_Username(vendor);
-
-            if (vendorData == null) ModelState.AddModelError(nameof(vendor), $"{nameof(vendor)} is invalid.");
-            else
+            if (args.city1Id != null && args.state1Id != null && args.zipCode1Id != null)
             {
-                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendorData.User_id);
+                var buf1 = await Check_City_State_ZipCode((int)args.city1Id, (int)args.state1Id, (int)args.zipCode1Id);
+                if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
+            }
+            else if (args.city1Id != null || args.state1Id != null || args.zipCode1Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
 
-                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+            if (ModelState.ErrorCount == 0)
+            {
+                if (args.city2Id != null && args.state2Id != null && args.zipCode2Id != null)
+                {
+                    var buf2 = await Check_City_State_ZipCode((int)args.city2Id, (int)args.state2Id, (int)args.zipCode2Id);
+                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
+                }
+                else if (args.city2Id != null || args.state2Id != null || args.zipCode2Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
             }
 
-            if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.prior_owner_City) && !String.IsNullOrEmpty(args.prior_owner_State) && !String.IsNullOrEmpty(args.prior_owner_Zip))
+            if (ModelState.ErrorCount == 0)
             {
-                var buf = await APIDbContext.Cities.AnyAsync(x => x.City == args.prior_owner_City && x.D_State.State_id == args.prior_owner_State && x.ZIP == args.prior_owner_Zip);
-
-                if (!buf) ModelState.AddModelError(nameof(args.prior_owner_City), $"{nameof(args.prior_owner_City)} or {nameof(args.prior_owner_State)} or {nameof(args.prior_owner_Zip)} is invalid.");
+                if (args.city3Id != null && args.state3Id != null && args.zipCode3Id != null)
+                {
+                    var buf3 = await Check_City_State_ZipCode((int)args.city3Id, (int)args.state3Id, (int)args.zipCode3Id);
+                    if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
+                }
+                else if (args.city3Id != null || args.state3Id != null || args.zipCode3Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
             }
-            else if (ModelState.ErrorCount == 0 && !String.IsNullOrEmpty(args.prior_owner_City) || !String.IsNullOrEmpty(args.prior_owner_State) || !String.IsNullOrEmpty(args.prior_owner_Zip)) ModelState.AddModelError(nameof(args.prior_owner_City), $"{nameof(args.prior_owner_City)} or {nameof(args.prior_owner_State)} or {nameof(args.prior_owner_Zip)} is invalid.");
+
+            if (ModelState.ErrorCount == 0)
+            {
+                if (args.city4Id != null && args.state4Id != null && args.zipCode4Id != null)
+                {
+                    var buf4 = await Check_City_State_ZipCode((int)args.city4Id, (int)args.state4Id, (int)args.zipCode4Id);
+                    if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
+                }
+                else if (args.city4Id != null || args.state4Id != null || args.zipCode4Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+            }
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseByIdStep5(DTO_BusinessLicenseRegistrationStep5 args)
+        private async Task<bool> ValidateUpdateLicenseStep3(DTO_BusinessLicenseRegStep3 args)
         {
-            var vendor = User.FindFirst(ClaimTypes.Name)?.Value;
-
-            var vendorData = await I_User.GetUserId_Filter_Username(vendor);
-
-            if (vendorData == null) ModelState.AddModelError(nameof(vendor), $"{nameof(vendor)} is invalid.");
-            else
+            if (args.groupOfSICCodes1Id != null && args.SICCode1Id != null)
             {
-                var License_id = await I_BusinessLicense.GetMaxIdOfLicense_Filter_Vendor(vendorData.User_id);
-
-                if (License_id == null) ModelState.AddModelError(nameof(License_id), $"{nameof(License_id)} is invalid.");
+                var buf1 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes1Id, (int)args.SICCode1Id);
+                if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
             }
+            else if (args.groupOfSICCodes1Id != null || args.SICCode1Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+
+            if (ModelState.ErrorCount == 0)
+            {
+                if (args.groupOfSICCodes2Id != null && args.SICCode2Id != null)
+                {
+                    var buf2 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes2Id, (int)args.SICCode2Id);
+                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
+                }
+                else if (args.groupOfSICCodes2Id != null || args.SICCode2Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+            }
+
+            if (ModelState.ErrorCount == 0)
+            {
+                if (args.groupOfSICCodes3Id != null && args.SICCode3Id != null)
+                {
+                    var buf3 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes3Id, (int)args.SICCode3Id);
+                    if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
+                }
+                else if (args.groupOfSICCodes3Id != null || args.SICCode3Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+            }
+
+            if (ModelState.ErrorCount == 0)
+            {
+                if (args.groupOfSICCodes4Id != null && args.SICCode4Id != null)
+                {
+                    var buf4 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes4Id, (int)args.SICCode4Id);
+                    if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
+                }
+                else if (args.groupOfSICCodes4Id != null || args.SICCode4Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+            }
+
+            if (ModelState.ErrorCount > 0) return false;
+
+            return true;
+        }
+
+        private async Task<bool> ValidateUpdateLicenseStep4(DTO_BusinessLicenseRegStep4 args)
+        {
+            if (args.priorOwnerCityId != null && args.priorOwnerStateId != null && args.priorOwnerZipCodeId != null)
+            {
+                var buf = await Check_City_State_ZipCode((int)args.priorOwnerCityId, (int)args.priorOwnerStateId, (int)args.priorOwnerZipCodeId);
+                if (buf != "") ModelState.AddModelError(nameof(args), buf);
+            }
+            else if (args.priorOwnerCityId != null || args.priorOwnerStateId != null || args.priorOwnerZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 

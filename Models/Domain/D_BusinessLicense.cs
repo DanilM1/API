@@ -8,236 +8,220 @@ namespace API.Models.Domain
         // step 1
 
         [Key]
-        public int License_id { get; set; }
-
-        public Guid vendorUser_Id { get; set; }
-
-        public D_User vendor { get; set; }
+        public int id { get; set; }
 
         [Required]
-        [MaxLength(200)]
-        public string sBusinessname_Legal { get; set; }
+        public Guid userId { get; set; }
 
         [Required]
-        [MaxLength(200)]
-        public string sName_First_Soleproprietor { get; set; }
-
-        [MaxLength(5)]
-        public string? sName_Mi_Soleproprietor { get; set; }
-
-        [Required]
-        [MaxLength(200)]
-        public string sName_Last_Soleproprietor { get; set; }
-
-        [MaxLength(200)]
-        public string? sBusinessName_trade { get; set; }
-
-        [Required]
-        [MaxLength(12)]
-        public string sFIDSSN { get; set; }
-
-        [Required]
-        [MaxLength(200)]
-        public string sBusiness_Address { get; set; }
+        [MaxLength(100)]
+        public string businessName { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string sBusiness_City { get; set; }
+        public string firstName { get; set; }
 
-        [Required]
-        [MaxLength(30)]
-        public string sBusiness_State { get; set; }
-
-        [Required]
         [MaxLength(5)]
-        public string sBusiness_Zip { get; set; }
+        public string? middleInitial { get; set; }
 
-        [MaxLength(254)]
-        public string? sMailing_Address { get; set; }
-
+        [Required]
         [MaxLength(50)]
-        public string? sMailing_City { get; set; }
+        public string lastName { get; set; }
 
-        [MaxLength(30)]
-        public string? sMailing_State { get; set; }
+        [MaxLength(200)]
+        public string? businessTradeName { get; set; }
 
-        [MaxLength(5)]
-        public string? sMailing_Zip { get; set; }
+        [Required]
+        [MaxLength(9)]
+        public string ID_SSN { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string businessAddress { get; set; }
+
+        [Required]
+        public int businessCityId { get; set; }
+
+        [Required]
+        public int businessStateId { get; set; }
+
+        [Required]
+        public int businessZipCodeId { get; set; }
+
+        [MaxLength(200)]
+        public string? mailingAddress { get; set; }
+
+        public int? mailingCityId { get; set; }
+
+        public int? mailingStateId { get; set; }
+
+        public int? mailingZipCodeId { get; set; }
 
         [Required]
         [MaxLength(14)]
-        public string sPhoneNo_DayTime { get; set; }
+        public string dayTimePhone { get; set; }
 
         [MaxLength(14)]
-        public string? sPhoneNo_Other { get; set; }
+        public string? otherPhone { get; set; }
 
         [MaxLength(14)]
-        public string? sFaxNo { get; set; }
+        public string? fax { get; set; }
 
         [Required]
-        public DateTime applicationDate { get; set; }
+        public DateTime startEffectiveDate { get; set; }
 
         // step 2
 
-        [MaxLength(200)]
-        public string? sOPO1_Name { get; set; }
+        [MaxLength(100)]
+        public string? name1 { get; set; }
 
-        [MaxLength(200)]
-        public string? sOPO1_Title { get; set; }
-
-        [MaxLength(14)]
-        public string? sOPO1_BusinessPhone { get; set; }
+        [MaxLength(100)]
+        public string? title1 { get; set; }
 
         [MaxLength(14)]
-        public string? sOPO1_HomePhone { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO1_HomeAddress { get; set; }
-
-        [MaxLength(50)]
-        public string? sOPO1_City { get; set; }
-
-        [MaxLength(30)]
-        public string? sOPO1_State { get; set; }
-
-        [MaxLength(5)]
-        public string? sOPO1_Zip { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO2_Name { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO2_Title { get; set; }
+        public string? businessPhone1 { get; set; }
 
         [MaxLength(14)]
-        public string? sOPO2_BusinessPhone { get; set; }
+        public string? homePhone1 { get; set; }
+
+        [MaxLength(200)]
+        public string? homeAddress1 { get; set; }
+
+        public int? city1Id { get; set; }
+
+        public int? state1Id { get; set; }
+
+        public int? zipCode1Id { get; set; }
+
+        [MaxLength(100)]
+        public string? name2 { get; set; }
+
+        [MaxLength(100)]
+        public string? title2 { get; set; }
 
         [MaxLength(14)]
-        public string? sOPO2_HomePhone { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO2_HomeAddress { get; set; }
-
-        [MaxLength(50)]
-        public string? sOPO2_City { get; set; }
-
-        [MaxLength(30)]
-        public string? sOPO2_State { get; set; }
-
-        [MaxLength(5)]
-        public string? sOPO2_Zip { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO3_Name { get; set; }
-
-        [MaxLength(200)]
-        public string? sOPO3_Title { get; set; }
+        public string? businessPhone2 { get; set; }
 
         [MaxLength(14)]
-        public string? sOPO3_BusinessPhone { get; set; }
-
-        [MaxLength(14)]
-        public string? sOPO3_HomePhone { get; set; }
+        public string? homePhone2 { get; set; }
 
         [MaxLength(200)]
-        public string? sOPO3_HomeAddress { get; set; }
+        public string? homeAddress2 { get; set; }
 
-        [MaxLength(50)]
-        public string? sOPO3_City { get; set; }
+        public int? city2Id { get; set; }
 
-        [MaxLength(30)]
-        public string? sOPO3_State { get; set; }
+        public int? state2Id { get; set; }
 
-        [MaxLength(5)]
-        public string? sOPO3_Zip { get; set; }
+        public int? zipCode2Id { get; set; }
+
+        [MaxLength(100)]
+        public string? name3 { get; set; }
+
+        [MaxLength(100)]
+        public string? title3 { get; set; }
+
+        [MaxLength(14)]
+        public string? businessPhone3 { get; set; }
+
+        [MaxLength(14)]
+        public string? homePhone3 { get; set; }
+
+        [MaxLength(200)]
+        public string? homeAddress3 { get; set; }
+
+        public int? city3Id { get; set; }
+
+        public int? state3Id { get; set; }
+
+        public int? zipCode3Id { get; set; }
+
+        [MaxLength(100)]
+        public string? name4 { get; set; }
+
+        [MaxLength(100)]
+        public string? title4 { get; set; }
+
+        [MaxLength(14)]
+        public string? businessPhone4 { get; set; }
+
+        [MaxLength(14)]
+        public string? homePhone4 { get; set; }
+
+        [MaxLength(200)]
+        public string? homeAddress4 { get; set; }
+
+        public int? city4Id { get; set; }
+
+        public int? state4Id { get; set; }
+
+        public int? zipCode4Id { get; set; }
 
         // step 3
 
         [MaxLength(200)]
-        public string? iType_LegalOrg { get; set; }
+        public string? typeOfLegalOrganization { get; set; }
 
-        public bool? bMember { get; set; }
+        public bool? member { get; set; }
 
-        public float? iOwned_SWST_Percent { get; set; }
+        public float? percentageIsOwnedBySissetonWahpetonOyateMember { get; set; }
 
-        public float? iOwned_AmeriIndian_percent { get; set; }
+        public float? percentageIsOwnedByAmericanIndians { get; set; }
 
-        [MaxLength(5)]
-        public string? sGroupCode_1 { get; set; }
+        public int? groupOfSICCodes1Id { get; set; }
 
-        public int? sSICCode_1 { get; set; }
+        public int? SICCode1Id { get; set; }
 
-        [MaxLength(5)]
-        public string? sGroupCode_2 { get; set; }
+        public int? groupOfSICCodes2Id { get; set; }
 
-        public int? sSICCode_2 { get; set; }
+        public int? SICCode2Id { get; set; }
 
-        [MaxLength(5)]
-        public string? sGroupCode_3 { get; set; }
+        public int? groupOfSICCodes3Id { get; set; }
 
-        public int? sSICCode_3 { get; set; }
+        public int? SICCode3Id { get; set; }
 
-        [MaxLength(5)]
-        public string? sGroupCode_4 { get; set; }
+        public int? groupOfSICCodes4Id { get; set; }
 
-        public int? sSICCode_4 { get; set; }
-
-        public bool? ibusiness_located { get; set; }
+        public int? SICCode4Id { get; set; }
 
         [MaxLength(200)]
-        public string? directions_nearest_town { get; set; }
+        public string? businessLocated { get; set; }
 
         // step 4
 
         [MaxLength(200)]
-        public string? iReason_License { get; set; }
+        public string? licenseReason { get; set; }
 
         [MaxLength(200)]
-        public string? prior_owner_Name { get; set; }
+        public string? priorOwnerAddress { get; set; }
+
+        public int? priorOwnerCityId { get; set; }
+
+        public int? priorOwnerStateId { get; set; }
+
+        public int? priorOwnerZipCodeId { get; set; }
 
         [MaxLength(200)]
-        public string? prior_owner_Title { get; set; }
+        public string? currentTribalTaxIDnumber { get; set; }
 
-        [MaxLength(14)]
-        public string? prior_owner_BusinessPhone { get; set; }
+        public bool? shouldAnyNumberBeCancelled { get; set; }
 
-        [MaxLength(14)]
-        public string? prior_owner_HomePhone { get; set; }
-
-        [MaxLength(200)]
-        public string? prior_owner_HomeAddress { get; set; }
-
-        [MaxLength(50)]
-        public string? prior_owner_City { get; set; }
-
-        [MaxLength(30)]
-        public string? prior_owner_State { get; set; }
-
-        [MaxLength(5)]
-        public string? prior_owner_Zip { get; set; }
-
-        [MaxLength(200)]
-        public string? sCTT_Id_Current { get; set; }
-
-        public bool? bCTT_Id_Cancel { get; set; }
-
-        public DateTime? dCTT_Id_CancelEff { get; set; }
+        public DateTime? cancelEffectiveDate { get; set; }
 
         // step 5
 
         [MaxLength(8)]
-        public string? sLicenseNo { get; set; }
+        public string? name { get; set; }
 
         [MaxLength(24)]
-        public string? sPwd { get; set; }
+        public string? password { get; set; }
 
         [MaxLength(200)]
         public string? secretQuestion { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(24)]
         public string? secretAnswer { get; set; }
 
         [MaxLength(254)]
-        public string? sEmail { get; set; }
+        public string? email { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace API.Repositories
 {
     public interface I_User
     {
-        Task<D_User> SignIn(string Username, string Password);
-        Task<string> SignUp(D_User User);
-        Task<D_User> GetUserId_Filter_Username(string Username);
+        Task<D_User> SignIn(string name, string password);
+        Task<string> SignUp(D_User user);
+        Task<D_User> GetUser(string name);
     }
 }

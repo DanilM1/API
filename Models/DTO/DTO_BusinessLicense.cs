@@ -1,20 +1,18 @@
-﻿using API.Models.Domain;
-
-namespace API.Models.DTO
+﻿namespace API.Models.DTO
 {
     public class DTO_BusinessLicense
     {
-        public string vendor { get; set; }
-        public string sLicenseNo { get; set; }
-        public DateTime applicationDate { get; set; }
-        public DateTime? dCTT_Id_CancelEff { get; set; }
-        public string sName_First_Soleproprietor { get; set; }
-        public string sName_Last_Soleproprietor { get; set; }
-        public string sBusiness_Address { get; set; }
-        public string sBusiness_City { get; set; }
-        public string sBusiness_State { get; set; }
-        public string sPhoneNo_DayTime { get; set; }
-        public string sMailing_Address { get; set; }
-        public string sBusiness_Zip { get; set; }
+        public string username { get; set; }
+        public string license { get; set; }
+        public DateTime startEffectiveDate { get; set; }
+        public DateTime? cancelEffectiveDate { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string businessAddress { get; set; }
+        public string businessCity { get; set; }
+        public string businessState { get; set; }
+        public string businessZipCode { get; set; }
+        public string mailingAddress { get; set; }
+        public string dayTimePhone { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace API.Models.DTO
 {
-    public class DTO_Role
+    public class DTO_GroupOfSICCodes
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string name { get; set; }
     }
 }

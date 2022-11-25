@@ -1,1 +1,1 @@
-INSERT INTO Roles (Name) VALUES ('reader'), ('vendor'), ('admin');
+INSERT Roles (name) VALUES ('reader'), ('writer'), ('admin');

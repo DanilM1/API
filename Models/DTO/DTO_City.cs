@@ -2,6 +2,7 @@
 {
     public class DTO_City
     {
-        public string City { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

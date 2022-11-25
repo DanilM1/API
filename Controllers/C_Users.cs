@@ -5,6 +5,7 @@ using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Json;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -28,81 +29,80 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("SignIn")]
-        [ActionName("SignIn")]
-        public async Task<IActionResult> SignIn(DTO_SignIn signIn)
-        {
-            var User = await I_User.SignIn(signIn.Username, signIn.Password);
-
-            if (User != null)
-            {
-                var token = await I_TokenHandler.CreateToken(User);
-                return Ok(new JavaScriptSerializer().Serialize($"Bearer {token}"));
-            };
-
-            return BadRequest("Username or Password is incorrect.");
-        }
-
-        [HttpPost]
         [Route("SignUp")]
-        public async Task<IActionResult> SignUp(DTO_SignUp SignUp)
+        public async Task<IActionResult> SignUp(DTO_SignUp signUp)
         {
-            if (!await ValidateSignUp(SignUp)) return BadRequest(ModelState);
+            if (!await ValidateSignUp(signUp)) return BadRequest(ModelState);
 
-            var User_id = Guid.NewGuid();
+            var id = Guid.NewGuid();
 
-            var ListOfAllRoles = await I_Role.GetListOfAllRoles();
+            var allRoles = await I_Role.GetAllRoles();
 
-            var Roles = new List<string> { };
+            var roles = new List<string> { };
 
-            foreach (var Role in ListOfAllRoles)
+            foreach (var role in allRoles)
             {
-                Roles.Add(Role);
-                if (Role == SignUp.Role) break;
+                var user_roles = new D_User_Role()
+                {
+                    user_id = id,
+                    role_id = role.id
+                };
+                await I_User_Role.Add_User_Role(user_roles);
+
+                roles.Add(role.name);
+
+                if (role.id == signUp.roleId) break;
             }
 
-            var buf = new D_User()
+            var user = new D_User()
             {
-                User_id = User_id,
-                Username = SignUp.Username,
-                EmailAddress = SignUp.EmailAddress,
-                Password = SignUp.Password,
-                FirstName = SignUp.FirstName,
-                LastName = SignUp.LastName,
-                Roles = Roles
+                id = id,
+                name = signUp.name,
+                roles = roles,
+                email = signUp.email,
+                firstName = signUp.firstName,
+                lastName = signUp.lastName,
+                password = signUp.password,
             };
 
-            await I_User.SignUp(buf);
-
-            foreach (var Role in Roles)
-            {
-                var Name = await I_Role.GetRoleId_Filter_Role(Role);
-                if (Name != null)
-                {
-                    var User_Roles = new D_User_Role()
-                    {
-                        UserId = User_id,
-                        RoleId = Name.Role_id
-                    };
-                    await I_User_Role.Add_User_Role(User_Roles);
-                }
-            }
+            await I_User.SignUp(user);
 
             var answer = "You have an account.";
 
             return CreatedAtAction(nameof(SignIn), new JavaScriptSerializer().Serialize(answer));
         }
 
-        #region Private methods
-        private async Task<bool> ValidateSignUp(DTO_SignUp SignUp)
+        [HttpPost]
+        [Route("SignIn")]
+        [ActionName("SignIn")]
+        public async Task<IActionResult> SignIn(DTO_SignIn signIn)
         {
-            var User = await APIDbContext.Users.AnyAsync(x => x.Username == SignUp.Username || x.EmailAddress == SignUp.EmailAddress);
+            var user = await I_User.SignIn(signIn.name, signIn.password);
 
-            if (User) ModelState.AddModelError(nameof(SignUp.Username), $"{nameof(SignUp.Username)} or {nameof(SignUp.EmailAddress)} already exists.");
+            if (user != null)
+            {
+                var token = await I_TokenHandler.CreateToken(user);
 
-            var Role = await I_Role.GetRoleId_Filter_Role(SignUp.Role);
+                var user_ = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
 
-            if (Role == null) ModelState.AddModelError(nameof(SignUp.Role), $"{nameof(SignUp.Role)} is invalid.");
+                var role = await I_User_Role.GetMaxRole(user_.id);
+
+                return Ok(new JavaScriptSerializer().Serialize($"Bearer {token}"));
+            };
+
+            return BadRequest(new JavaScriptSerializer().Serialize("Username or Password is incorrect."));
+        }
+
+        #region Private methods
+        private async Task<bool> ValidateSignUp(DTO_SignUp signUp)
+        {
+            var user = await APIDbContext.Users.AnyAsync(x => x.name == signUp.name || x.email == signUp.email);
+
+            if (user) ModelState.AddModelError(nameof(signUp.name), $"{nameof(signUp.name)} or {nameof(signUp.email)} already exists.");
+
+            var role = await I_Role.GetRole(signUp.roleId);
+
+            if (role == null) ModelState.AddModelError(nameof(signUp.roleId), $"{nameof(signUp.roleId)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 

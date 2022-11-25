@@ -2,11 +2,12 @@
 {
     public class DTO_SignUp
     {
-        public string Username { get; set; }
-        public string EmailAddress { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Role { get; set; }
+        public string name { get; set; }
+        public int roleId { get; set; }
+        public string email { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string password { get; set; }
+
     }
 }
