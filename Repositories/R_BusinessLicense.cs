@@ -225,6 +225,15 @@ namespace API.Repositories
             res.state3Id = license.state3Id;
             res.zipCode3Id = license.zipCode3Id;
 
+            res.name4 = license.name4;
+            res.title4 = license.title4;
+            res.businessPhone4 = license.businessPhone4;
+            res.homePhone4 = license.homePhone4;
+            res.homeAddress4 = license.homeAddress4;
+            res.city4Id = license.city4Id;
+            res.state4Id = license.state4Id;
+            res.zipCode4Id = license.zipCode4Id;
+
             await APIDbContext.SaveChangesAsync();
             return "2 step was success";
         }

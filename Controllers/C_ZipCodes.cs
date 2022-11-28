@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class C_ZipCodes : Controller
     {
         private readonly I_ZipCode I_ZipCode;

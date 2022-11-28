@@ -34,32 +34,32 @@ namespace API.Controllers
         [HttpGet]
         [Route("~/C_BusinessLicensesFilterDates")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetBusinessLicensesFilterDates([FromBody] DTO_BusinessLicenseFilterFilterDates args)
+        public async Task<IActionResult> GetBusinessLicensesFilterDates(DateTime startEffectiveDate, DateTime cancelEffectiveDate)
         {
-            if (!ValidateGetBusinessLicensesFilterDates(args)) return BadRequest(ModelState);
+            if (!ValidateGetBusinessLicensesFilterDates(startEffectiveDate, cancelEffectiveDate)) return BadRequest(ModelState);
 
-            return Ok(await I_BusinessLicense.GetLicensesFilterDates((DateTime)args.startEffectiveDate, (DateTime)args.cancelEffectiveDate));
+            return Ok(await I_BusinessLicense.GetLicensesFilterDates(startEffectiveDate, cancelEffectiveDate));
         }
 
         [HttpGet]
         [Route("~/C_BusinessLicensesFilterSICCode")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetBusinessLicensesFilterSICCode([FromBody] DTO_BusinessLicenseFilterSICCode args)
+        public async Task<IActionResult> GetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
         {
-            if (!await ValidateGetBusinessLicensesFilterSICCode(args)) return BadRequest(ModelState);
-            if (args.groupOfSICCodesId != null && args.SICCodeId != null) return Ok(await I_BusinessLicense.GetLicensesFilterSICCode((int)args.groupOfSICCodesId, (int)args.SICCodeId));
+            if (!await ValidateGetBusinessLicensesFilterSICCode(groupOfSICCodesId, SICCodeId)) return BadRequest(ModelState);
+            if (groupOfSICCodesId != null && SICCodeId != null) return Ok(await I_BusinessLicense.GetLicensesFilterSICCode(groupOfSICCodesId, SICCodeId));
 
             return Ok("Data are not correct.");
         }
 
         [HttpPost]
         [Route("~/C_BusinessLicense/RegistrationStep1")]
-        [Authorize(Roles = "vendor")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddNewLicense(DTO_BusinessLicenseRegStep1 args)
         {
             if (!await ValidateAddNewLicense(args)) return BadRequest(ModelState);
 
-            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
             var buf = new D_BusinessLicense()
             {
@@ -89,12 +89,12 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep2")]
-        [Authorize(Roles = "vendor")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateLicenseStep2([FromBody] DTO_BusinessLicenseRegStep2 args)
         {
             if (!await ValidateUpdateLicenseStep2(args)) return BadRequest(ModelState);
 
-            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
             var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
@@ -146,12 +146,12 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep3")]
-        [Authorize(Roles = "vendor")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateLicenseStep3([FromBody] DTO_BusinessLicenseRegStep3 args)
         {
             if (!await ValidateUpdateLicenseStep3(args)) return BadRequest(ModelState);
 
-            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
             var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
@@ -180,12 +180,12 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep4")]
-        [Authorize(Roles = "vendor")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateLicenseStep4([FromBody] DTO_BusinessLicenseRegStep4 args)
         {
             if (!await ValidateUpdateLicenseStep4(args)) return BadRequest(ModelState);
 
-            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
             var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
@@ -210,13 +210,13 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep5")]
-        [Authorize(Roles = "vendor")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateLicenseStep5([FromBody] DTO_BusinessLicenseRegStep5 args)
         {
             var CountOfAllLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllLicensesWithOnlyMembers();
             var CountOfAllLicenses = await I_BusinessLicense.GetCountOfAllLicenses();
 
-            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Name)?.Value);
+            var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
             var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
 
@@ -239,7 +239,7 @@ namespace API.Controllers
         }
 
         #region Private methods
-        public async Task<string> Check_City_State_ZipCode(int cityId, int stateId, int zipCodeId)
+        private async Task<string> Check_City_State_ZipCode(int cityId, int stateId, int zipCodeId)
         {
             var buf1 = await APIDbContext.Cities.FirstOrDefaultAsync(x => x.id == cityId && x.state.id == stateId);
 
@@ -252,7 +252,7 @@ namespace API.Controllers
             return "";
         }
 
-        public async Task<string> Check_GroupOfSICCodes_SICCodeId(int groupOfSICCodesId, int SICCodeId)
+        private async Task<string> Check_GroupOfSICCodes_SICCodeId(int groupOfSICCodesId, int SICCodeId)
         {
             var buf = await APIDbContext.SICCodes.AnyAsync(x => x.groupOfSICCodes.id == groupOfSICCodesId && x.id == SICCodeId);
 
@@ -261,24 +261,24 @@ namespace API.Controllers
             return "";
         }
 
-        private bool ValidateGetBusinessLicensesFilterDates(DTO_BusinessLicenseFilterFilterDates args)
+        private bool ValidateGetBusinessLicensesFilterDates(DateTime? startEffectiveDate, DateTime? cancelEffectiveDate)
         {
-            if (args.startEffectiveDate == null && args.cancelEffectiveDate != null || args.startEffectiveDate != null && args.cancelEffectiveDate == null || args.startEffectiveDate != null && args.cancelEffectiveDate != null && args.startEffectiveDate >= args.cancelEffectiveDate)
+            if (startEffectiveDate == null && cancelEffectiveDate != null || startEffectiveDate != null && cancelEffectiveDate == null || startEffectiveDate != null && cancelEffectiveDate != null && startEffectiveDate >= cancelEffectiveDate)
 
-                ModelState.AddModelError(nameof(args), $"{nameof(args.startEffectiveDate)} or {nameof(args.cancelEffectiveDate)} is invalid.");
+                ModelState.AddModelError("Dates", $"{nameof(startEffectiveDate)} or {nameof(cancelEffectiveDate)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateGetBusinessLicensesFilterSICCode(DTO_BusinessLicenseFilterSICCode args)
+        private async Task<bool> ValidateGetBusinessLicensesFilterSICCode(int? groupOfSICCodesId, int? SICCodeId)
         {
-            if (args.groupOfSICCodesId == null || args.SICCodeId == null) ModelState.AddModelError(nameof(args), $"{nameof(args.groupOfSICCodesId)} or {nameof(args.SICCodeId)} is invalid.");
+            if (groupOfSICCodesId == null || SICCodeId == null) ModelState.AddModelError("Data", $"{nameof(groupOfSICCodesId)} or {nameof(SICCodeId)} is invalid.");
             else if (ModelState.ErrorCount == 0)
             {
-                var buf = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodesId, (int)args.SICCodeId);
-                if (buf != "") ModelState.AddModelError(nameof(args), buf);
+                var buf = await Check_GroupOfSICCodes_SICCodeId((int)groupOfSICCodesId, (int)SICCodeId);
+                if (buf != "") ModelState.AddModelError("Data", buf);
             }
 
             if (ModelState.ErrorCount > 0) return false;
@@ -293,7 +293,7 @@ namespace API.Controllers
 
             if (ModelState.ErrorCount == 0)
             {
-                if (args.mailingStateId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
+                if (args.mailingAddress != null && args.mailingStateId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
                 {
                     var buf2 = await Check_City_State_ZipCode((int)args.mailingZipCodeId, (int)args.mailingStateId, (int)args.mailingZipCodeId);
                     if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
@@ -308,7 +308,7 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateLicenseStep2(DTO_BusinessLicenseRegStep2 args)
         {
-            if (args.city1Id != null && args.state1Id != null && args.zipCode1Id != null)
+            if (args.homeAddress1 != null && args.city1Id != null && args.state1Id != null && args.zipCode1Id != null)
             {
                 var buf1 = await Check_City_State_ZipCode((int)args.city1Id, (int)args.state1Id, (int)args.zipCode1Id);
                 if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
@@ -317,7 +317,7 @@ namespace API.Controllers
 
             if (ModelState.ErrorCount == 0)
             {
-                if (args.city2Id != null && args.state2Id != null && args.zipCode2Id != null)
+                if (args.homeAddress2 != null && args.city2Id != null && args.state2Id != null && args.zipCode2Id != null)
                 {
                     var buf2 = await Check_City_State_ZipCode((int)args.city2Id, (int)args.state2Id, (int)args.zipCode2Id);
                     if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
@@ -327,7 +327,7 @@ namespace API.Controllers
 
             if (ModelState.ErrorCount == 0)
             {
-                if (args.city3Id != null && args.state3Id != null && args.zipCode3Id != null)
+                if (args.homeAddress3 != null && args.city3Id != null && args.state3Id != null && args.zipCode3Id != null)
                 {
                     var buf3 = await Check_City_State_ZipCode((int)args.city3Id, (int)args.state3Id, (int)args.zipCode3Id);
                     if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
@@ -337,7 +337,7 @@ namespace API.Controllers
 
             if (ModelState.ErrorCount == 0)
             {
-                if (args.city4Id != null && args.state4Id != null && args.zipCode4Id != null)
+                if (args.homeAddress4 != null && args.city4Id != null && args.state4Id != null && args.zipCode4Id != null)
                 {
                     var buf4 = await Check_City_State_ZipCode((int)args.city4Id, (int)args.state4Id, (int)args.zipCode4Id);
                     if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
@@ -396,7 +396,7 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateLicenseStep4(DTO_BusinessLicenseRegStep4 args)
         {
-            if (args.priorOwnerCityId != null && args.priorOwnerStateId != null && args.priorOwnerZipCodeId != null)
+            if (args.priorOwnerAddress != null && args.priorOwnerCityId != null && args.priorOwnerStateId != null && args.priorOwnerZipCodeId != null)
             {
                 var buf = await Check_City_State_ZipCode((int)args.priorOwnerCityId, (int)args.priorOwnerStateId, (int)args.priorOwnerZipCodeId);
                 if (buf != "") ModelState.AddModelError(nameof(args), buf);

@@ -32,7 +32,7 @@ namespace API.Validators
 
         public SignIn()
         {
-            RuleFor(x => x.name).NotEmpty().MinimumLength(3).MaximumLength(50);
+            RuleFor(x => x.email).NotEmpty().MaximumLength(254).EmailAddress();
             RuleFor(x => x.password).Matches(reg.password);
         }
     }

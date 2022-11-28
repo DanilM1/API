@@ -1,7 +1,6 @@
 ﻿using API.Data;
 using API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
 
 namespace API.Repositories
 {
@@ -21,19 +20,19 @@ namespace API.Repositories
             return "You have an account.";
         }
 
-        public async Task<D_User> SignIn(string name, string password)
+        public async Task<D_User> SignIn(string email, string password)
         {
-            var user = await APIDbContext.Users.FirstOrDefaultAsync(x => x.name.ToLower() == name.ToLower() && x.password == password);
+            var user = await APIDbContext.Users.FirstOrDefaultAsync(x => x.email.ToLower() == email.ToLower() && x.password == password);
             
             if (user == null) return null;
 
-            var userRoles = await APIDbContext.Users_Roles.Where(x => x.user.id == user.id).ToListAsync();
+            var userRoles = await APIDbContext.Users_Roles.Where(x => x.user_id == user.id).ToListAsync();
             if (userRoles.Any())
             {
                 user.roles = new List<string>();
                 foreach (var userRole in userRoles)
                 {
-                    var role = await APIDbContext.Roles.FirstOrDefaultAsync(x => x.id == userRole.id);
+                    var role = await APIDbContext.Roles.FirstOrDefaultAsync(x => x.id == userRole.role_id);
                     if (role != null) user.roles.Add(role.name);
                 }
             }
@@ -41,9 +40,9 @@ namespace API.Repositories
             return user;
         }
 
-        public async Task<D_User> GetUser(string name)
+        public async Task<D_User> GetUser(string email)
         {
-            return await APIDbContext.Users.FirstOrDefaultAsync(x => x.name == name);
+            return await APIDbContext.Users.FirstOrDefaultAsync(x => x.email == email);
         }
     }
 }

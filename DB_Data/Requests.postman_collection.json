@@ -1,0 +1,605 @@
+{
+	"info": {
+		"_postman_id": "77b27581-d559-4cb9-804d-b211df4bacc3",
+		"name": "Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7222/C_Roles",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Admin\",\r\n  \"roleId\": 3,\r\n  \"email\": \"admin@gmail.com\",\r\n  \"firstName\": \"Swo\",\r\n  \"lastName\": \"Tax\",\r\n  \"password\": \"1234qwerS!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Users/SignUp",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Users",
+						"SignUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"protocolProfileBehavior": {
+				"strictSSL": false,
+				"tlsPreferServerCiphers": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"1234qwerS!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Users/SignIn",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Users",
+						"SignIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StatesUS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMwNDM4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.vTVu8iQ5td9TqDAhf5ovQitoIe4PosykzVMwRb5GPTU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_StatesUS",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_StatesUS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cities",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMwNDM4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.vTVu8iQ5td9TqDAhf5ovQitoIe4PosykzVMwRb5GPTU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_Cities?stateId=28",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_Cities"
+					],
+					"query": [
+						{
+							"key": "stateId",
+							"value": "28"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ZipCodes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMwNDM4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.vTVu8iQ5td9TqDAhf5ovQitoIe4PosykzVMwRb5GPTU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_ZipCodes?cityId=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_ZipCodes"
+					],
+					"query": [
+						{
+							"key": "cityId",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GroupsOfSICCodes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMwNDM4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.vTVu8iQ5td9TqDAhf5ovQitoIe4PosykzVMwRb5GPTU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_GroupsOfSICCodes",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_GroupsOfSICCodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SICCodes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMwNDM4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.vTVu8iQ5td9TqDAhf5ovQitoIe4PosykzVMwRb5GPTU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_SICCodes?groupOfSICCodesId=101",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_SICCodes"
+					],
+					"query": [
+						{
+							"key": "groupOfSICCodesId",
+							"value": "101"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjMxODM3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.Dwryn6uvewKiqzCnjC_bGqdfNBETjJe2CAHDpQlCUjc",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"businessName\": \"CamelGood\",\r\n  \"firstName\": \"CatMeow\",\r\n  \"middleInitial\": \"DM\",\r\n  \"lastName\": \"DogHard\",\r\n  \"businessTradeName\": \"LTD.\",\r\n  \"iD_SSN\": \"123456789\",\r\n  \"businessAddress\": \"Dacota Programming\",\r\n  \"businessCityId\": 14498,\r\n  \"businessStateId\": 5,\r\n  \"businessZipCodeId\": 1,\r\n  \"mailingAddress\": \"string\",\r\n  \"mailingCityId\": null,\r\n  \"mailingStateId\": null,\r\n  \"mailingZipCodeId\": null,\r\n  \"dayTimePhone\": \"12345-123-1234\",\r\n  \"otherPhone\": \"12345-123-1234\",\r\n  \"fax\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM0MzI1LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.5wTg9MZXXfdHGZYOX--ldJfkxBOn7xh7fVM4PRamJoU",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name1\": \"\",\r\n  \"title1\": \"\",\r\n  \"businessPhone1\": \"\",\r\n  \"homePhone1\": \"\",\r\n  \"homeAddress1\": \"\",\r\n  \"city1Id\": 14498,\r\n  \"state1Id\": 5,\r\n  \"zipCode1Id\": 1,\r\n  \"name2\": \"\",\r\n  \"title2\": \"\",\r\n  \"businessPhone2\": \"\",\r\n  \"homePhone2\": \"\",\r\n  \"homeAddress2\": \"\",\r\n  \"city2Id\": 14498,\r\n  \"state2Id\": 5,\r\n  \"zipCode2Id\": 1,\r\n  \"name3\": \"\",\r\n  \"title3\": \"\",\r\n  \"businessPhone3\": \"\",\r\n  \"homePhone3\": \"\",\r\n  \"homeAddress3\": \"\",\r\n  \"city3Id\": 14498,\r\n  \"state3Id\": 5,\r\n  \"zipCode3Id\": 1,\r\n  \"name4\": \"\",\r\n  \"title4\": \"\",\r\n  \"businessPhone4\": \"\",\r\n  \"homePhone4\": \"\",\r\n  \"homeAddress4\": \"\",\r\n  \"city4Id\": 14498,\r\n  \"state4Id\": 5,\r\n  \"zipCode4Id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep3",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM0ODcxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.Kih1Z7uH3IRPMjsUnzjp51VWqDw-KjXvKL0-BX8iNqI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"typeOfLegalOrganization\": \"\",\r\n  \"member\": true,\r\n  \"percentageIsOwnedBySissetonWahpetonOyateMember\": 5,\r\n  \"percentageIsOwnedByAmericanIndians\": 95,\r\n  \"groupOfSICCodes1Id\": 100,\r\n  \"sicCode1Id\": 5812,\r\n  \"groupOfSICCodes2Id\": 105,\r\n  \"sicCode2Id\": 5010,\r\n  \"groupOfSICCodes3Id\": 110,\r\n  \"sicCode3Id\": 4000,\r\n  \"groupOfSICCodes4Id\": 115,\r\n  \"sicCode4Id\": 7620,\r\n  \"businessLocated\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep4",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM0ODcxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.Kih1Z7uH3IRPMjsUnzjp51VWqDw-KjXvKL0-BX8iNqI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"licenseReason\": \"string\",\r\n  \"priorOwnerAddress\": \"string\",\r\n  \"priorOwnerCityId\": null,\r\n  \"priorOwnerStateId\": null,\r\n  \"priorOwnerZipCodeId\": null,\r\n  \"currentTribalTaxIDnumber\": \"string\",\r\n  \"shouldAnyNumberBeCancelled\": true,\r\n  \"cancelEffectiveDate\": \"2022-11-28T11:15:14.198Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenseRegistrationStep5",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM3NTgwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.J4QJdCZOYbg6F186hZ1JYvyUmwS1xNyOrWRRPWBLheI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"1234qwerS!\",\r\n  \"secretQuestion\": \"A little black cat\",\r\n  \"secretAnswer\": \"Daria\",\r\n  \"email\": \"admin@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicense/RegistrationStep5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicense",
+						"RegistrationStep5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicenses",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM1NDk3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.ZsM9CuBY8GUIX7DOYqib15WKzwA2slkQnJGGo-S0XaY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicenses",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicensesFilterDates",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM2OTM3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.9N2WAt1F_pHuHnqUERGkyy_aABXGGw_up09gjZ1Zyrc",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicensesFilterDates?startEffectiveDate=2021-9-10&cancelEffectiveDate=2026-9-10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicensesFilterDates"
+					],
+					"query": [
+						{
+							"key": "startEffectiveDate",
+							"value": "2021-9-10"
+						},
+						{
+							"key": "cancelEffectiveDate",
+							"value": "2026-9-10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BusinessLicensesFilterSICCode",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsicmVhZGVyIiwid3JpdGVyIiwiYWRtaW4iXSwiZXhwIjoxNjY5NjM2OTM3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTIzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcxMjMvIn0.9N2WAt1F_pHuHnqUERGkyy_aABXGGw_up09gjZ1Zyrc",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7222/C_BusinessLicensesFilterSICCode?groupOfSICCodesId=115&SICCodeId=7620",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7222",
+					"path": [
+						"C_BusinessLicensesFilterSICCode"
+					],
+					"query": [
+						{
+							"key": "groupOfSICCodesId",
+							"value": "115"
+						},
+						{
+							"key": "SICCodeId",
+							"value": "7620"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

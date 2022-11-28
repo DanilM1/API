@@ -14,13 +14,14 @@ namespace API.Repositories
         {
             this.configuration = configuration;
         }
+
         public Task<string> CreateToken(D_User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 
             var claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.Name, user.name));
+            claims.Add(new Claim(ClaimTypes.Email, user.email));
 
             user.roles.ForEach((role) =>
             {

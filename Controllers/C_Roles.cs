@@ -1,7 +1,6 @@
 ﻿using API.Models.DTO;
 using API.Repositories;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,7 +19,6 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllRoles()
         {
             return Ok(I_Mapper.Map<List<DTO_Role>>(await I_Role.GetAllRoles()));
