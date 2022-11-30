@@ -14,26 +14,23 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<string> AddNewLicense(D_BusinessLicense license)
+        public async Task<string> AddNewBusinessLicense(D_BusinessLicense license)
         {
             await APIDbContext.BusinessLicenses.AddAsync(license);
             await APIDbContext.SaveChangesAsync();
             return "1 step was success";
         }
 
-        public async Task<IEnumerable<DTO_BusinessLicense>> GetAllLicenses()
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetAllBusinessLicenses()
         {
             var query = from License in APIDbContext.BusinessLicenses
                         from User in APIDbContext.Users
-                        from StateUS in APIDbContext.StatesUS
-                        from City in APIDbContext.Cities
                         from ZipCode in APIDbContext.ZipCodes
                         where
                             License.userId == User.id &&
-                            License.businessCityId == City.id &&
                             License.businessCityId == ZipCode.city.id &&
-                            License.businessZipCodeId == ZipCode.id &&
-                            StateUS.id == City.state.id
+                            License.businessStateId == ZipCode.city.state.id &&
+                            License.businessZipCodeId == ZipCode.id
                         select new
                         {
                             username = User.name,
@@ -43,8 +40,8 @@ namespace API.Repositories
                             firstName = License.firstName,
                             lastName = License.lastName,
                             businessAddress = License.businessAddress,
-                            businessCity = City.name,
-                            businessState = StateUS.name,
+                            businessCity = ZipCode.city.name,
+                            businessState = ZipCode.city.state.name,
                             businessZipCode = ZipCode.name,
                             dayTimePhone = License.dayTimePhone,
                             mailingAddress = License.mailingAddress
@@ -69,34 +66,31 @@ namespace API.Repositories
             }).ToList();
         }
 
-        public async Task<int> GetCountOfAllLicenses()
+        public async Task<int> GetCountOfAllBusinessLicenses()
         {
             return await APIDbContext.BusinessLicenses.CountAsync();
         }
 
-        public async Task<int> GetCountOfAllLicensesWithOnlyMembers()
+        public async Task<int> GetCountOfAllBusinessLicensesWithOnlyMembers()
         {
             return await APIDbContext.BusinessLicenses.Where(x => x.member == true).CountAsync();
         }
 
-        public async Task<D_BusinessLicense> GetLicense(int licenseId)
+        public async Task<D_BusinessLicense> GetBusinessLicense(int licenseId)
         {
             return await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
         }
 
-        public async Task<IEnumerable<DTO_BusinessLicense>> GetLicensesFilterDates(DateTime startEffectiveDate, DateTime cancelEffectiveDate)
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetBusinessLicensesFilterDates(DateTime startEffectiveDate, DateTime cancelEffectiveDate)
         {
             var query = from License in APIDbContext.BusinessLicenses
                         from User in APIDbContext.Users
-                        from StateUS in APIDbContext.StatesUS
-                        from City in APIDbContext.Cities
                         from ZipCode in APIDbContext.ZipCodes
                         where
                             License.userId == User.id &&
-                            License.businessCityId == City.id &&
                             License.businessCityId == ZipCode.city.id &&
+                            License.businessStateId == ZipCode.city.state.id &&
                             License.businessZipCodeId == ZipCode.id &&
-                            StateUS.id == City.state.id &&
                             License.startEffectiveDate >= startEffectiveDate && License.cancelEffectiveDate <= cancelEffectiveDate
                         select new
                         {
@@ -107,8 +101,8 @@ namespace API.Repositories
                             firstName = License.firstName,
                             lastName = License.lastName,
                             businessAddress = License.businessAddress,
-                            businessCity = City.name,
-                            businessState = StateUS.name,
+                            businessCity = ZipCode.city.name,
+                            businessState = ZipCode.city.state.name,
                             businessZipCode = ZipCode.name,
                             dayTimePhone = License.dayTimePhone,
                             mailingAddress = License.mailingAddress
@@ -133,19 +127,16 @@ namespace API.Repositories
             }).ToList();
         }
 
-        public async Task<IEnumerable<DTO_BusinessLicense>> GetLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
+        public async Task<IEnumerable<DTO_BusinessLicense>> GetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
         {
             var query = from License in APIDbContext.BusinessLicenses
                         from User in APIDbContext.Users
-                        from StateUS in APIDbContext.StatesUS
-                        from City in APIDbContext.Cities
                         from ZipCode in APIDbContext.ZipCodes
                         where
                             License.userId == User.id &&
-                            License.businessCityId == City.id &&
                             License.businessCityId == ZipCode.city.id &&
+                            License.businessStateId == ZipCode.city.state.id &&
                             License.businessZipCodeId == ZipCode.id &&
-                            StateUS.id == City.state.id &&
                             (
                             License.groupOfSICCodes1Id == groupOfSICCodesId && License.SICCode1Id == SICCodeId ||
                             License.groupOfSICCodes2Id == groupOfSICCodesId && License.SICCode2Id == SICCodeId ||
@@ -161,8 +152,8 @@ namespace API.Repositories
                             firstName = License.firstName,
                             lastName = License.lastName,
                             businessAddress = License.businessAddress,
-                            businessCity = City.name,
-                            businessState = StateUS.name,
+                            businessCity = ZipCode.city.name,
+                            businessState = ZipCode.city.state.name,
                             businessZipCode = ZipCode.name,
                             dayTimePhone = License.dayTimePhone,
                             mailingAddress = License.mailingAddress
@@ -187,16 +178,18 @@ namespace API.Repositories
             }).ToList();
         }
 
-        public async Task<int> GetLastLicenseIdForUser(Guid userId)
+        public async Task<int> GetLastBusinessLicenseIdForUser(Guid userId)
         {
             return await APIDbContext.BusinessLicenses.Where(x => x.userId == userId).Select(x => x.id).MaxAsync();
         }
 
-        public async Task<string> UpdateLicenseStep2(int licenseId, D_BusinessLicense license)
+        public async Task<string> UpdateBusinessLicenseStep2(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
             if (res == null) return "";
+
+            res.listAllOwnersPartnersOfficers = license.listAllOwnersPartnersOfficers;
 
             res.name1 = license.name1;
             res.title1 = license.title1;
@@ -238,7 +231,7 @@ namespace API.Repositories
             return "2 step was success";
         }
 
-        public async Task<string> UpdateLicenseStep3(int licenseId, D_BusinessLicense license)
+        public async Task<string> UpdateBusinessLicenseStep3(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
@@ -262,7 +255,7 @@ namespace API.Repositories
             return "3 step was success";
         }
 
-        public async Task<string> UpdateLicenseStep4(int licenseId, D_BusinessLicense license)
+        public async Task<string> UpdateBusinessLicenseStep4(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
@@ -281,7 +274,7 @@ namespace API.Repositories
             return "4 step was success";
         }
 
-        public async Task<string> UpdateLicenseStep5(int licenseId, D_BusinessLicense license)
+        public async Task<string> UpdateBusinessLicenseStep5(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 

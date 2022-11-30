@@ -66,6 +66,8 @@ namespace API.Validators
 
         public V_BusinessLicenseRegistrationStep2()
         {
+            RuleFor(x => x.listAllOwnersPartnersOfficers).MaximumLength(200);
+
             RuleFor(x => x.name1).MaximumLength(100);
             RuleFor(x => x.title1).MaximumLength(100);
             RuleFor(x => x.businessPhone1).Matches(reg.phoneOrEmpty);
@@ -98,8 +100,8 @@ namespace API.Validators
         {
             RuleFor(x => x.typeOfLegalOrganization).MaximumLength(200);
             RuleFor(x => x.member).NotNull();
-            RuleFor(x => x.percentageIsOwnedBySissetonWahpetonOyateMember).InclusiveBetween(0, 100);
-            RuleFor(x => x.percentageIsOwnedByAmericanIndians).LessThanOrEqualTo(x => 100 - x.percentageIsOwnedBySissetonWahpetonOyateMember);
+            RuleFor(x => x.percentageIsOwnedBySissetonWahpetonOyateMember).InclusiveBetween(0, 100).When(x => x.member == true);
+            RuleFor(x => x.percentageIsOwnedByAmericanIndians).LessThanOrEqualTo(x => 100 - x.percentageIsOwnedBySissetonWahpetonOyateMember).When(x => x.member == true);
             RuleFor(x => x.businessLocated).MaximumLength(200);
         }
     }

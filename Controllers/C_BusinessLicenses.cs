@@ -5,6 +5,7 @@ using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Nancy.Json;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -26,9 +27,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetAllLicenses()
+        public async Task<IActionResult> GetAllBusinessLicenses()
         {
-            return Ok(await I_BusinessLicense.GetAllLicenses());
+            return Ok(await I_BusinessLicense.GetAllBusinessLicenses());
         }
 
         [HttpGet]
@@ -38,16 +39,16 @@ namespace API.Controllers
         {
             if (!ValidateGetBusinessLicensesFilterDates(startEffectiveDate, cancelEffectiveDate)) return BadRequest(ModelState);
 
-            return Ok(await I_BusinessLicense.GetLicensesFilterDates(startEffectiveDate, cancelEffectiveDate));
+            return Ok(await I_BusinessLicense.GetBusinessLicensesFilterDates(startEffectiveDate, cancelEffectiveDate));
         }
 
         [HttpGet]
         [Route("~/C_BusinessLicensesFilterSICCode")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
+        public async Task<IActionResult> GetBusinessLicensesFilterSICCode(int? groupOfSICCodesId, int? SICCodeId)
         {
             if (!await ValidateGetBusinessLicensesFilterSICCode(groupOfSICCodesId, SICCodeId)) return BadRequest(ModelState);
-            if (groupOfSICCodesId != null && SICCodeId != null) return Ok(await I_BusinessLicense.GetLicensesFilterSICCode(groupOfSICCodesId, SICCodeId));
+            if (groupOfSICCodesId != null && SICCodeId != null) return Ok(await I_BusinessLicense.GetBusinessLicensesFilterSICCode((int)groupOfSICCodesId, (int)SICCodeId));
 
             return Ok("Data are not correct.");
         }
@@ -55,9 +56,9 @@ namespace API.Controllers
         [HttpPost]
         [Route("~/C_BusinessLicense/RegistrationStep1")]
         [Authorize(Roles = "writer")]
-        public async Task<IActionResult> AddNewLicense(DTO_BusinessLicenseRegStep1 args)
+        public async Task<IActionResult> AddNewBusinessLicense(DTO_BusinessLicenseRegStep1 args)
         {
-            if (!await ValidateAddNewLicense(args)) return BadRequest(ModelState);
+            if (!await ValidateAddNewBusinessLicense(args)) return BadRequest(ModelState);
 
             var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
@@ -84,22 +85,26 @@ namespace API.Controllers
                 startEffectiveDate = DateTime.Now
             };
 
-            return Ok(await I_BusinessLicense.AddNewLicense(buf));
+            var answer = await I_BusinessLicense.AddNewBusinessLicense(buf);
+
+            return Ok(new JavaScriptSerializer().Serialize(answer));
         }
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep2")]
         [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateLicenseStep2([FromBody] DTO_BusinessLicenseRegStep2 args)
+        public async Task<IActionResult> UpdateBusinessLicenseStep2([FromBody] DTO_BusinessLicenseRegStep2 args)
         {
-            if (!await ValidateUpdateLicenseStep2(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateBusinessLicenseStep2(args)) return BadRequest(ModelState);
 
             var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
-            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
+            var licenseId = await I_BusinessLicense.GetLastBusinessLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
+                listAllOwnersPartnersOfficers = args.listAllOwnersPartnersOfficers,
+
                 name1 = args.name1,
                 title1 = args.title1,
                 businessPhone1 = args.businessPhone1,
@@ -137,23 +142,23 @@ namespace API.Controllers
                 zipCode4Id = args.zipCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseStep2(licenseId, buf);
+            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep2(licenseId, buf);
 
             if (answer == null) return NotFound();
 
-            return Ok(answer);
+            return Ok(new JavaScriptSerializer().Serialize(answer));
         }
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep3")]
         [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateLicenseStep3([FromBody] DTO_BusinessLicenseRegStep3 args)
+        public async Task<IActionResult> UpdateBusinessLicenseStep3([FromBody] DTO_BusinessLicenseRegStep3 args)
         {
-            if (!await ValidateUpdateLicenseStep3(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateBusinessLicenseStep3(args)) return BadRequest(ModelState);
 
             var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
-            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
+            var licenseId = await I_BusinessLicense.GetLastBusinessLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
@@ -171,23 +176,23 @@ namespace API.Controllers
                 SICCode4Id = args.SICCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseStep3(licenseId, buf);
+            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep3(licenseId, buf);
 
             if (answer == null) return NotFound();
 
-            return Ok(answer);
+            return Ok(new JavaScriptSerializer().Serialize(answer));
         }
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep4")]
         [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateLicenseStep4([FromBody] DTO_BusinessLicenseRegStep4 args)
+        public async Task<IActionResult> UpdateBusinessLicenseStep4([FromBody] DTO_BusinessLicenseRegStep4 args)
         {
-            if (!await ValidateUpdateLicenseStep4(args)) return BadRequest(ModelState);
+            if (!await ValidateUpdateBusinessLicenseStep4(args)) return BadRequest(ModelState);
 
             var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
-            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
+            var licenseId = await I_BusinessLicense.GetLastBusinessLicenseIdForUser(user.id);
 
             var buf = new D_BusinessLicense()
             {
@@ -201,41 +206,41 @@ namespace API.Controllers
                 cancelEffectiveDate = args.cancelEffectiveDate
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseStep4(licenseId, buf);
+            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep4(licenseId, buf);
 
             if (answer == null) return NotFound();
 
-            return Ok(answer);
+            return Ok(new JavaScriptSerializer().Serialize(answer));
         }
 
         [HttpPut]
         [Route("~/C_BusinessLicense/RegistrationStep5")]
         [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateLicenseStep5([FromBody] DTO_BusinessLicenseRegStep5 args)
+        public async Task<IActionResult> UpdateBusinessLicenseStep5([FromBody] DTO_BusinessLicenseRegStep5 args)
         {
-            var CountOfAllLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllLicensesWithOnlyMembers();
-            var CountOfAllLicenses = await I_BusinessLicense.GetCountOfAllLicenses();
+            var CountOfAllBusinessLicensesWithOnlyMembers = await I_BusinessLicense.GetCountOfAllBusinessLicensesWithOnlyMembers();
+            var CountOfAllBusinessLicenses = await I_BusinessLicense.GetCountOfAllBusinessLicenses();
 
             var user = await I_User.GetUser(User.FindFirst(ClaimTypes.Email)?.Value);
 
-            var licenseId = await I_BusinessLicense.GetLastLicenseIdForUser(user.id);
+            var licenseId = await I_BusinessLicense.GetLastBusinessLicenseIdForUser(user.id);
 
-            var license = await I_BusinessLicense.GetLicense(licenseId);
+            var license = await I_BusinessLicense.GetBusinessLicense(licenseId);
 
             var buf = new D_BusinessLicense()
             {
-                name = license.member == true ? $"Mb-{CountOfAllLicensesWithOnlyMembers}" : $"Nm-{CountOfAllLicenses - CountOfAllLicensesWithOnlyMembers}",
+                name = license.member == true ? $"Mb-{CountOfAllBusinessLicensesWithOnlyMembers}" : $"Nm-{CountOfAllBusinessLicenses - CountOfAllBusinessLicensesWithOnlyMembers}",
                 password = args.password,
                 secretQuestion = args.secretQuestion,
                 secretAnswer = args.secretAnswer,
                 email = args.email
             };
 
-            string answer = await I_BusinessLicense.UpdateLicenseStep5(licenseId, buf);
+            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep5(licenseId, buf);
 
             if (answer == null) return NotFound();
 
-            return Ok(answer);
+            return Ok(new JavaScriptSerializer().Serialize(answer));
         }
 
         #region Private methods
@@ -286,7 +291,7 @@ namespace API.Controllers
             return true;
         }
 
-        private async Task<bool> ValidateAddNewLicense(DTO_BusinessLicenseRegStep1 args)
+        private async Task<bool> ValidateAddNewBusinessLicense(DTO_BusinessLicenseRegStep1 args)
         {
             var buf1 = await Check_City_State_ZipCode(args.businessCityId, args.businessStateId, args.businessZipCodeId);
             if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
@@ -306,7 +311,7 @@ namespace API.Controllers
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseStep2(DTO_BusinessLicenseRegStep2 args)
+        private async Task<bool> ValidateUpdateBusinessLicenseStep2(DTO_BusinessLicenseRegStep2 args)
         {
             if (args.homeAddress1 != null && args.city1Id != null && args.state1Id != null && args.zipCode1Id != null)
             {
@@ -350,7 +355,7 @@ namespace API.Controllers
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseStep3(DTO_BusinessLicenseRegStep3 args)
+        private async Task<bool> ValidateUpdateBusinessLicenseStep3(DTO_BusinessLicenseRegStep3 args)
         {
             if (args.groupOfSICCodes1Id != null && args.SICCode1Id != null)
             {
@@ -394,7 +399,7 @@ namespace API.Controllers
             return true;
         }
 
-        private async Task<bool> ValidateUpdateLicenseStep4(DTO_BusinessLicenseRegStep4 args)
+        private async Task<bool> ValidateUpdateBusinessLicenseStep4(DTO_BusinessLicenseRegStep4 args)
         {
             if (args.priorOwnerAddress != null && args.priorOwnerCityId != null && args.priorOwnerStateId != null && args.priorOwnerZipCodeId != null)
             {

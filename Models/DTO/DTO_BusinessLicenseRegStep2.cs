@@ -2,6 +2,8 @@
 {
     public class DTO_BusinessLicenseRegStep2
     {
+        public string listAllOwnersPartnersOfficers { get; set; }
+
         public string name1 { get; set; }
         public string title1 { get; set; }
         public string businessPhone1 { get; set; }

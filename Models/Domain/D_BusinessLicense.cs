@@ -72,6 +72,9 @@ namespace API.Models.Domain
 
         // step 2
 
+        [MaxLength(200)]
+        public string? listAllOwnersPartnersOfficers { get; set; }
+
         [MaxLength(100)]
         public string? name1 { get; set; }
 
