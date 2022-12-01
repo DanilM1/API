@@ -13,11 +13,11 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<string> SignUp(D_User user)
+        public async Task<bool> SignUp(D_User user)
         {
             await APIDbContext.Users.AddAsync(user);
             await APIDbContext.SaveChangesAsync();
-            return "You have an account.";
+            return true;
         }
 
         public async Task<D_User> SignIn(string email, string password)

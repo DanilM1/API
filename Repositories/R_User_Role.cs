@@ -13,11 +13,11 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<string> Add_User_Role(D_User_Role User_Role)
+        public async Task<bool> Add_User_Role(D_User_Role User_Role)
         {
             await APIDbContext.Users_Roles.AddAsync(User_Role);
             await APIDbContext.SaveChangesAsync();
-            return "Created user with his role(s).";
+            return true;
         }
 
         public async Task<int> GetMaxRole(Guid userId)

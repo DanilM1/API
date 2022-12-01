@@ -5,7 +5,6 @@ using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nancy.Json;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -50,7 +49,7 @@ namespace API.Controllers
             if (!await ValidateGetBusinessLicensesFilterSICCode(groupOfSICCodesId, SICCodeId)) return BadRequest(ModelState);
             if (groupOfSICCodesId != null && SICCodeId != null) return Ok(await I_BusinessLicense.GetBusinessLicensesFilterSICCode((int)groupOfSICCodesId, (int)SICCodeId));
 
-            return Ok("Data are not correct.");
+            return Ok();
         }
 
         [HttpPost]
@@ -85,9 +84,9 @@ namespace API.Controllers
                 startEffectiveDate = DateTime.Now
             };
 
-            var answer = await I_BusinessLicense.AddNewBusinessLicense(buf);
+            await I_BusinessLicense.AddNewBusinessLicense(buf);
 
-            return Ok(new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         [HttpPut]
@@ -142,11 +141,9 @@ namespace API.Controllers
                 zipCode4Id = args.zipCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep2(licenseId, buf);
+            await I_BusinessLicense.UpdateBusinessLicenseStep2(licenseId, buf);
 
-            if (answer == null) return NotFound();
-
-            return Ok(new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         [HttpPut]
@@ -176,11 +173,9 @@ namespace API.Controllers
                 SICCode4Id = args.SICCode4Id
             };
 
-            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep3(licenseId, buf);
+            await I_BusinessLicense.UpdateBusinessLicenseStep3(licenseId, buf);
 
-            if (answer == null) return NotFound();
-
-            return Ok(new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         [HttpPut]
@@ -206,11 +201,9 @@ namespace API.Controllers
                 cancelEffectiveDate = args.cancelEffectiveDate
             };
 
-            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep4(licenseId, buf);
+            await I_BusinessLicense.UpdateBusinessLicenseStep4(licenseId, buf);
 
-            if (answer == null) return NotFound();
-
-            return Ok(new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         [HttpPut]
@@ -236,11 +229,9 @@ namespace API.Controllers
                 email = args.email
             };
 
-            string answer = await I_BusinessLicense.UpdateBusinessLicenseStep5(licenseId, buf);
+            await I_BusinessLicense.UpdateBusinessLicenseStep5(licenseId, buf);
 
-            if (answer == null) return NotFound();
-
-            return Ok(new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         #region Private methods
@@ -298,12 +289,12 @@ namespace API.Controllers
 
             if (ModelState.ErrorCount == 0)
             {
-                if (args.mailingAddress != null && args.mailingStateId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
+                if (args.mailingAddress != null && args.mailingCityId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
                 {
-                    var buf2 = await Check_City_State_ZipCode((int)args.mailingZipCodeId, (int)args.mailingStateId, (int)args.mailingZipCodeId);
+                    var buf2 = await Check_City_State_ZipCode((int)args.mailingCityId, (int)args.mailingStateId, (int)args.mailingZipCodeId);
                     if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
                 }
-                else if (args.mailingStateId != null || args.mailingStateId != null || args.mailingZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+                else if (args.mailingCityId != null || args.mailingStateId != null || args.mailingZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
             }
 
             if (ModelState.ErrorCount > 0) return false;

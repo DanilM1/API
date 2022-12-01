@@ -14,11 +14,11 @@ namespace API.Repositories
             this.APIDbContext = APIDbContext;
         }
 
-        public async Task<string> AddNewBusinessLicense(D_BusinessLicense license)
+        public async Task<bool> AddNewBusinessLicense(D_BusinessLicense license)
         {
             await APIDbContext.BusinessLicenses.AddAsync(license);
             await APIDbContext.SaveChangesAsync();
-            return "1 step was success";
+            return true;
         }
 
         public async Task<IEnumerable<DTO_BusinessLicense>> GetAllBusinessLicenses()
@@ -183,11 +183,11 @@ namespace API.Repositories
             return await APIDbContext.BusinessLicenses.Where(x => x.userId == userId).Select(x => x.id).MaxAsync();
         }
 
-        public async Task<string> UpdateBusinessLicenseStep2(int licenseId, D_BusinessLicense license)
+        public async Task<bool> UpdateBusinessLicenseStep2(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
-            if (res == null) return "";
+            if (res == null) return false;
 
             res.listAllOwnersPartnersOfficers = license.listAllOwnersPartnersOfficers;
 
@@ -228,14 +228,14 @@ namespace API.Repositories
             res.zipCode4Id = license.zipCode4Id;
 
             await APIDbContext.SaveChangesAsync();
-            return "2 step was success";
+            return true;
         }
 
-        public async Task<string> UpdateBusinessLicenseStep3(int licenseId, D_BusinessLicense license)
+        public async Task<bool> UpdateBusinessLicenseStep3(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
-            if (res == null) return "";
+            if (res == null) return false;
 
             res.typeOfLegalOrganization = license.typeOfLegalOrganization;
             res.member = license.member;
@@ -252,14 +252,14 @@ namespace API.Repositories
             res.businessLocated = license.businessLocated;
 
             await APIDbContext.SaveChangesAsync();
-            return "3 step was success";
+            return true;
         }
 
-        public async Task<string> UpdateBusinessLicenseStep4(int licenseId, D_BusinessLicense license)
+        public async Task<bool> UpdateBusinessLicenseStep4(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
-            if (res == null) return "";
+            if (res == null) return false;
 
             res.licenseReason = license.licenseReason;
             res.priorOwnerAddress = license.priorOwnerAddress;
@@ -271,14 +271,14 @@ namespace API.Repositories
             res.cancelEffectiveDate = license.cancelEffectiveDate;
 
             await APIDbContext.SaveChangesAsync();
-            return "4 step was success";
+            return true;
         }
 
-        public async Task<string> UpdateBusinessLicenseStep5(int licenseId, D_BusinessLicense license)
+        public async Task<bool> UpdateBusinessLicenseStep5(int licenseId, D_BusinessLicense license)
         {
             var res = await APIDbContext.BusinessLicenses.FirstOrDefaultAsync(x => x.id == licenseId);
 
-            if (res == null) return "";
+            if (res == null) return false;
 
             res.name = license.name;
             res.password = license.password;
@@ -287,7 +287,7 @@ namespace API.Repositories
             res.email = license.email;
 
             await APIDbContext.SaveChangesAsync();
-            return "5 step was success";
+            return true;
         }
     }
 }

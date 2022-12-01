@@ -13,11 +13,11 @@ namespace API.Repositories
         Task<IEnumerable<DTO_BusinessLicense>> GetBusinessLicensesFilterDates(DateTime startEffectiveDate, DateTime cancelEffectiveDate);
         Task<IEnumerable<DTO_BusinessLicense>> GetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId);
 
-        Task<string> AddNewBusinessLicense(D_BusinessLicense license);
+        Task<bool> AddNewBusinessLicense(D_BusinessLicense license);
 
-        Task<string> UpdateBusinessLicenseStep2(int licenseId, D_BusinessLicense license);
-        Task<string> UpdateBusinessLicenseStep3(int licenseId, D_BusinessLicense license);
-        Task<string> UpdateBusinessLicenseStep4(int licenseId, D_BusinessLicense license);
-        Task<string> UpdateBusinessLicenseStep5(int licenseId, D_BusinessLicense license);
+        Task<bool> UpdateBusinessLicenseStep2(int licenseId, D_BusinessLicense license);
+        Task<bool> UpdateBusinessLicenseStep3(int licenseId, D_BusinessLicense license);
+        Task<bool> UpdateBusinessLicenseStep4(int licenseId, D_BusinessLicense license);
+        Task<bool> UpdateBusinessLicenseStep5(int licenseId, D_BusinessLicense license);
     }
 }

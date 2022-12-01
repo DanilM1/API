@@ -4,7 +4,6 @@ using API.Models.DTO;
 using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nancy.Json;
 
 namespace API.Controllers
 {
@@ -72,9 +71,7 @@ namespace API.Controllers
                 if (role.id == signUp.roleId) break;
             }
 
-            var answer = "You have an account.";
-
-            return CreatedAtAction(nameof(SignIn), new JavaScriptSerializer().Serialize(answer));
+            return Ok();
         }
 
         [HttpPost]
@@ -90,10 +87,10 @@ namespace API.Controllers
 
                 var role = await I_User_Role.GetMaxRole(user.id);
 
-                return Ok(Json(new[] { new { token = $"Bearer {token}", role } }));
+                return Ok(Json(new[] { new { token, role } }));
             }
 
-            return BadRequest(new JavaScriptSerializer().Serialize("Username or Password is incorrect."));
+            return BadRequest(ModelState);
         }
 
         #region Private methods

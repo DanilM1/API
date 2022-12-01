@@ -47,13 +47,13 @@ namespace API.Validators
             RuleFor(x => x.firstName).NotEmpty().MinimumLength(3).MaximumLength(50);
             RuleFor(x => x.middleInitial).MaximumLength(5);
             RuleFor(x => x.lastName).NotEmpty().MinimumLength(3).MaximumLength(50);
-            RuleFor(x => x.businessTradeName).MinimumLength(3).MaximumLength(200);
+            RuleFor(x => x.businessTradeName).MaximumLength(200);
             RuleFor(x => x.ID_SSN).Matches(reg.ID_SSN);
             RuleFor(x => x.businessAddress).NotEmpty().MinimumLength(3).MaximumLength(200);
             RuleFor(x => x.businessCityId).NotEmpty();
             RuleFor(x => x.businessStateId).NotEmpty();
             RuleFor(x => x.businessZipCodeId).NotEmpty();
-            RuleFor(x => x.mailingAddress).MinimumLength(3).MaximumLength(200);
+            RuleFor(x => x.mailingAddress).MaximumLength(200);
             RuleFor(x => x.dayTimePhone).Matches(reg.phoneRequired);
             RuleFor(x => x.otherPhone).Matches(reg.phoneOrEmpty);
             RuleFor(x => x.fax).Matches(reg.phoneOrEmpty);
