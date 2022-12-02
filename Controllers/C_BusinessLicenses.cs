@@ -44,12 +44,11 @@ namespace API.Controllers
         [HttpGet]
         [Route("~/C_BusinessLicensesFilterSICCode")]
         [Authorize(Roles = "reader")]
-        public async Task<IActionResult> GetBusinessLicensesFilterSICCode(int? groupOfSICCodesId, int? SICCodeId)
+        public async Task<IActionResult> GetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
         {
             if (!await ValidateGetBusinessLicensesFilterSICCode(groupOfSICCodesId, SICCodeId)) return BadRequest(ModelState);
-            if (groupOfSICCodesId != null && SICCodeId != null) return Ok(await I_BusinessLicense.GetBusinessLicensesFilterSICCode((int)groupOfSICCodesId, (int)SICCodeId));
 
-            return Ok();
+            return Ok(await I_BusinessLicense.GetBusinessLicensesFilterSICCode(groupOfSICCodesId, SICCodeId));
         }
 
         [HttpPost]
@@ -235,47 +234,46 @@ namespace API.Controllers
         }
 
         #region Private methods
-        private async Task<string> Check_City_State_ZipCode(int cityId, int stateId, int zipCodeId)
+        private async Task<string> Check_City_State_ZipCode(string address, int? cityId, int? stateId, int? zipCodeId)
         {
-            var buf1 = await APIDbContext.Cities.FirstOrDefaultAsync(x => x.id == cityId && x.state.id == stateId);
+            if (address != "" && cityId != null && stateId != null && zipCodeId != null)
+            {
+                var buf1 = await APIDbContext.Cities.FirstOrDefaultAsync(x => x.id == cityId && x.state.id == stateId);
+                if (buf1 == null) return "City or State is invalid.";
 
-            if (buf1 == null) return "City or State is invalid.";
-
-            var buf2 = await APIDbContext.ZipCodes.AnyAsync(x => x.city.id == buf1.id && x.id == zipCodeId);
-
-            if (!buf2) return "Zip code is invalid.";
+                var buf2 = await APIDbContext.ZipCodes.AnyAsync(x => x.city.id == buf1.id && x.id == zipCodeId);
+                if (!buf2) return "Zip code is invalid.";
+            }
+            else if (address != "" || cityId != null || stateId != null || zipCodeId != null) return "Data are not full";
 
             return "";
         }
 
-        private async Task<string> Check_GroupOfSICCodes_SICCodeId(int groupOfSICCodesId, int SICCodeId)
+        private async Task<string> Check_GroupOfSICCodes_SICCodeId(int? groupOfSICCodesId, int? SICCodeId)
         {
-            var buf = await APIDbContext.SICCodes.AnyAsync(x => x.groupOfSICCodes.id == groupOfSICCodesId && x.id == SICCodeId);
-
-            if (!buf) return "Group Of SIC Code or SIC Code is invalid.";
+            if (groupOfSICCodesId != null && SICCodeId != null)
+            {
+                var buf = await APIDbContext.SICCodes.AnyAsync(x => x.groupOfSICCodes.id == groupOfSICCodesId && x.id == SICCodeId);
+                if (!buf) return "Group Of SIC Code or SIC Code is invalid.";
+            }
+            else if (groupOfSICCodesId != null || SICCodeId != null) return "Data are not full";
 
             return "";
         }
 
         private bool ValidateGetBusinessLicensesFilterDates(DateTime? startEffectiveDate, DateTime? cancelEffectiveDate)
         {
-            if (startEffectiveDate == null && cancelEffectiveDate != null || startEffectiveDate != null && cancelEffectiveDate == null || startEffectiveDate != null && cancelEffectiveDate != null && startEffectiveDate >= cancelEffectiveDate)
-
-                ModelState.AddModelError("Dates", $"{nameof(startEffectiveDate)} or {nameof(cancelEffectiveDate)} is invalid.");
+            if (startEffectiveDate == null || cancelEffectiveDate == null || startEffectiveDate >= cancelEffectiveDate) ModelState.AddModelError("Dates", $"{nameof(startEffectiveDate)} or {nameof(cancelEffectiveDate)} is invalid.");
 
             if (ModelState.ErrorCount > 0) return false;
 
             return true;
         }
 
-        private async Task<bool> ValidateGetBusinessLicensesFilterSICCode(int? groupOfSICCodesId, int? SICCodeId)
+        private async Task<bool> ValidateGetBusinessLicensesFilterSICCode(int groupOfSICCodesId, int SICCodeId)
         {
-            if (groupOfSICCodesId == null || SICCodeId == null) ModelState.AddModelError("Data", $"{nameof(groupOfSICCodesId)} or {nameof(SICCodeId)} is invalid.");
-            else if (ModelState.ErrorCount == 0)
-            {
-                var buf = await Check_GroupOfSICCodes_SICCodeId((int)groupOfSICCodesId, (int)SICCodeId);
-                if (buf != "") ModelState.AddModelError("Data", buf);
-            }
+            var buf = await Check_GroupOfSICCodes_SICCodeId(groupOfSICCodesId, SICCodeId);
+            if (buf != "") ModelState.AddModelError("Data", buf);
 
             if (ModelState.ErrorCount > 0) return false;
 
@@ -284,17 +282,12 @@ namespace API.Controllers
 
         private async Task<bool> ValidateAddNewBusinessLicense(DTO_BusinessLicenseRegStep1 args)
         {
-            var buf1 = await Check_City_State_ZipCode(args.businessCityId, args.businessStateId, args.businessZipCodeId);
+            var buf1 = await Check_City_State_ZipCode(args.businessAddress, args.businessCityId, args.businessStateId, args.businessZipCodeId);
             if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
-
-            if (ModelState.ErrorCount == 0)
+            else
             {
-                if (args.mailingAddress != null && args.mailingCityId != null && args.mailingStateId != null && args.mailingZipCodeId != null)
-                {
-                    var buf2 = await Check_City_State_ZipCode((int)args.mailingCityId, (int)args.mailingStateId, (int)args.mailingZipCodeId);
-                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
-                }
-                else if (args.mailingCityId != null || args.mailingStateId != null || args.mailingZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+                var buf2 = await Check_City_State_ZipCode(args.mailingAddress, args.mailingCityId, args.mailingStateId, args.mailingZipCodeId);
+                if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
             }
 
             if (ModelState.ErrorCount > 0) return false;
@@ -304,41 +297,25 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateBusinessLicenseStep2(DTO_BusinessLicenseRegStep2 args)
         {
-            if (args.homeAddress1 != null && args.city1Id != null && args.state1Id != null && args.zipCode1Id != null)
-            {
-                var buf1 = await Check_City_State_ZipCode((int)args.city1Id, (int)args.state1Id, (int)args.zipCode1Id);
-                if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
-            }
-            else if (args.city1Id != null || args.state1Id != null || args.zipCode1Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+            var buf1 = await Check_City_State_ZipCode(args.homeAddress1, args.city1Id, args.state1Id, args.zipCode1Id);
+            if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.homeAddress2 != null && args.city2Id != null && args.state2Id != null && args.zipCode2Id != null)
-                {
-                    var buf2 = await Check_City_State_ZipCode((int)args.city2Id, (int)args.state2Id, (int)args.zipCode2Id);
-                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
-                }
-                else if (args.city2Id != null || args.state2Id != null || args.zipCode2Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+                var buf2 = await Check_City_State_ZipCode(args.homeAddress2, args.city2Id, args.state2Id, args.zipCode2Id);
+                if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
             }
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.homeAddress3 != null && args.city3Id != null && args.state3Id != null && args.zipCode3Id != null)
-                {
-                    var buf3 = await Check_City_State_ZipCode((int)args.city3Id, (int)args.state3Id, (int)args.zipCode3Id);
-                    if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
-                }
-                else if (args.city3Id != null || args.state3Id != null || args.zipCode3Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+                var buf3 = await Check_City_State_ZipCode(args.homeAddress3, args.city3Id, args.state3Id, args.zipCode3Id);
+                if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
             }
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.homeAddress4 != null && args.city4Id != null && args.state4Id != null && args.zipCode4Id != null)
-                {
-                    var buf4 = await Check_City_State_ZipCode((int)args.city4Id, (int)args.state4Id, (int)args.zipCode4Id);
-                    if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
-                }
-                else if (args.city4Id != null || args.state4Id != null || args.zipCode4Id != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+                var buf4 = await Check_City_State_ZipCode(args.homeAddress4, args.city4Id, args.state4Id, args.zipCode4Id);
+                if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
             }
 
             if (ModelState.ErrorCount > 0) return false;
@@ -348,41 +325,25 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateBusinessLicenseStep3(DTO_BusinessLicenseRegStep3 args)
         {
-            if (args.groupOfSICCodes1Id != null && args.SICCode1Id != null)
-            {
-                var buf1 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes1Id, (int)args.SICCode1Id);
-                if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
-            }
-            else if (args.groupOfSICCodes1Id != null || args.SICCode1Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+            var buf1 = await Check_GroupOfSICCodes_SICCodeId(args.groupOfSICCodes1Id, args.SICCode1Id);
+            if (buf1 != "") ModelState.AddModelError(nameof(args), buf1);
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.groupOfSICCodes2Id != null && args.SICCode2Id != null)
-                {
-                    var buf2 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes2Id, (int)args.SICCode2Id);
-                    if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
-                }
-                else if (args.groupOfSICCodes2Id != null || args.SICCode2Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+                var buf2 = await Check_GroupOfSICCodes_SICCodeId(args.groupOfSICCodes2Id, args.SICCode2Id);
+                if (buf2 != "") ModelState.AddModelError(nameof(args), buf2);
             }
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.groupOfSICCodes3Id != null && args.SICCode3Id != null)
-                {
-                    var buf3 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes3Id, (int)args.SICCode3Id);
-                    if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
-                }
-                else if (args.groupOfSICCodes3Id != null || args.SICCode3Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+                var buf3 = await Check_GroupOfSICCodes_SICCodeId(args.groupOfSICCodes3Id, args.SICCode3Id);
+                if (buf3 != "") ModelState.AddModelError(nameof(args), buf3);
             }
 
-            if (ModelState.ErrorCount == 0)
+            else if (ModelState.ErrorCount == 0)
             {
-                if (args.groupOfSICCodes4Id != null && args.SICCode4Id != null)
-                {
-                    var buf4 = await Check_GroupOfSICCodes_SICCodeId((int)args.groupOfSICCodes4Id, (int)args.SICCode4Id);
-                    if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
-                }
-                else if (args.groupOfSICCodes4Id != null || args.SICCode4Id != null) ModelState.AddModelError(nameof(args), "Group Of SIC Code or SIC Code is invalid.");
+                var buf4 = await Check_GroupOfSICCodes_SICCodeId(args.groupOfSICCodes4Id, args.SICCode4Id);
+                if (buf4 != "") ModelState.AddModelError(nameof(args), buf4);
             }
 
             if (ModelState.ErrorCount > 0) return false;
@@ -392,12 +353,8 @@ namespace API.Controllers
 
         private async Task<bool> ValidateUpdateBusinessLicenseStep4(DTO_BusinessLicenseRegStep4 args)
         {
-            if (args.priorOwnerAddress != null && args.priorOwnerCityId != null && args.priorOwnerStateId != null && args.priorOwnerZipCodeId != null)
-            {
-                var buf = await Check_City_State_ZipCode((int)args.priorOwnerCityId, (int)args.priorOwnerStateId, (int)args.priorOwnerZipCodeId);
-                if (buf != "") ModelState.AddModelError(nameof(args), buf);
-            }
-            else if (args.priorOwnerCityId != null || args.priorOwnerStateId != null || args.priorOwnerZipCodeId != null) ModelState.AddModelError(nameof(args), "City or State or Zip code is invalid.");
+            var buf = await Check_City_State_ZipCode(args.priorOwnerAddress, args.priorOwnerCityId, args.priorOwnerStateId, args.priorOwnerZipCodeId);
+            if (buf != "") ModelState.AddModelError(nameof(args), buf);
 
             if (ModelState.ErrorCount > 0) return false;
 
