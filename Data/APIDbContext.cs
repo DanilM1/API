@@ -5,7 +5,7 @@ namespace API.Data
 {
     public class APIDbContext : DbContext
     {
-        public APIDbContext(DbContextOptions<APIDbContext> options) : base(options) { }
+        public APIDbContext(DbContextOptions<APIDbContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,6 @@ namespace API.Data
         public DbSet<D_BusinessLicense> BusinessLicenses { get; set; }
         public DbSet<D_GroupOfSICCodes> GroupsOfSICCodes { get; set; }
         public DbSet<D_SICCode> SICCodes { get; set; }
-        
+
     }
 }

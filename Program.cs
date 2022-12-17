@@ -91,11 +91,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var service = (IServiceScopeFactory)app.Services.GetService(typeof(IServiceScopeFactory));
-
-using(var db = service.CreateScope().ServiceProvider.GetService<APIDbContext>())
-{
-    db.Database.Migrate();
-}
-
 app.Run();
